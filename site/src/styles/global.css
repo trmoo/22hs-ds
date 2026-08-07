@@ -245,6 +245,7 @@ h1, h2, h3, h4 { line-height: 1.35; font-weight: 700; }
 }
 a.badge:hover { background: var(--c-primary); color: #fff; }
 .badge.warn { background: var(--warn-soft); color: var(--warn); font-family: var(--font-sans); }
+.badge.derived { background: var(--c-accent-soft); color: var(--c-accent); font-family: var(--font-sans); cursor: help; }
 
 /* ---------- 차시 머리말 ---------- */
 .lesson-head { margin-bottom: 1.75rem; }

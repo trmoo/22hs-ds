@@ -45,7 +45,7 @@ import { url } from '../lib/url.js';
                   {row.map(({ hits }) => (
                     <td>{hits.length === 0
                       ? <em style="color:var(--c-text-faint)">[확인필요]</em>
-                      : hits.map((h) => <span style="display:block">{h.unit.split('.')[0]}-{h.chapter}{!h.verified && ' *'}</span>)}</td>
+                      : hits.map((h) => <span style="display:block">{h.unit.split('.')[0]}-{h.chapter}{h.confidence === 'derived' ? ' †' : h.confidence === 'unknown' ? ' *' : ''}</span>)}</td>
                   ))}
                 </tr>
               );
@@ -55,7 +55,10 @@ import { url } from '../lib/url.js';
       </tbody>
     </table>
   </div>
-  <p style="font-size:.82rem;color:var(--c-text-faint)">* 표시는 [확인필요] 항목이다.</p>
+  <p style="font-size:.82rem;color:var(--c-text-faint)">
+    표시 없음 = 출판사가 성취기준을 명시한 항목(지도서). <b>†</b> = 교과서 본문의 단원 목표·평가 기준을
+    성취기준과 대조해 판정한 항목. <b>*</b> = 확인하지 못한 항목([확인필요]).
+  </p>
 
   <h2 class="blk-h2">출판사별 구조와 출처</h2>
   {publishers.map((p) => (
@@ -70,7 +73,7 @@ import { url } from '../lib/url.js';
               <span style="display:block">
                 {c.no}. {c.name}
                 {(c.standards ?? []).length > 0
-                  ? <span> — {c.standards.join(', ')}{!c.verified && ' [확인필요]'}</span>
+                  ? <span> — {c.standards.join(', ')}{c.confidence === 'derived' ? ' (본문 대조)' : c.confidence === 'unknown' ? ' [확인필요]' : ''}</span>
                   : <span> — <em>[확인필요]</em></span>}
                 {(c.sections ?? []).length > 0 && (
                   <span class="sec">{c.sections.map((x) => `${x.no} ${x.name}${x.page ? ` (${x.page}쪽)` : ''}`).join(' · ')}</span>

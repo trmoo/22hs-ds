@@ -49,7 +49,8 @@ const cw = crosswalkFor(lesson.standards ?? []);
             : hits.map((h) => (
                 <span>
                   {h.unit} › {h.chapter}
-                  {!h.verified && <span class="badge warn"> [확인필요]</span>}
+                  {h.confidence === 'derived' && <span class="badge derived" title={h.basis}> 본문 대조</span>}
+                  {h.confidence === 'unknown' && <span class="badge warn"> [확인필요]</span>}
                   {h.sections.length > 0 && (
                     <span class="sec">{h.sections.map((s) => s.label + (s.page ? ` (${s.page}쪽)` : '')).join(' · ')}</span>
                   )}

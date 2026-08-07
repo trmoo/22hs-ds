@@ -30,7 +30,7 @@ const lessonsOf = (code) => lessons.filter((l) => (l.standards ?? []).includes(c
                 <span class="pub">{publisher.name}</span>
                 <span class="loc">{hits.length === 0
                   ? <em>[확인필요]</em>
-                  : hits.map((h) => <span>{h.unit} › {h.chapter}{!h.verified && ' [확인필요]'}</span>)}</span>
+                  : hits.map((h) => <span>{h.unit} › {h.chapter}{h.confidence === 'derived' ? ' (본문 대조)' : h.confidence === 'unknown' ? ' [확인필요]' : ''}</span>)}</span>
               </div>
             ))}
           </details>
