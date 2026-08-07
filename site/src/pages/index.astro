@@ -1,0 +1,37 @@
+---
+import Textbook from '../layouts/Textbook.astro';
+import { lessonsByArea, stats, curriculum } from '../lib/content.js';
+---
+<Textbook title="과목 처음" showToc={false}>
+  <header class="lesson-head">
+    <p class="eyebrow">2022 개정 교육과정 · 진로 선택</p>
+    <h1>데이터 과학</h1>
+    <p class="lead">
+      데이터에서 의미를 찾아 판단의 근거로 삼는 방법을 배운다.
+      이 교과서의 뼈대는 교과서 출판사가 아니라 <strong>성취기준 {stats.standards}개</strong>다.
+      모든 차시는 성취기준에 연결되어 있고, 우리 학교가 어느 교과서를 쓰든 해당 단원을 찾아갈 수 있다.
+    </p>
+    <div class="meta">
+      <span class="chip">{curriculum.subject.credits}단위</span>
+      <span class="chip">총 {curriculum.subject.totalPeriods}차시</span>
+      <span class="chip">차시 {stats.lessons}개</span>
+      <span class="chip">확인 문제 {stats.quizItems}문항</span>
+      <span class="chip">성취기준 연결 {stats.covered}/{stats.standards}</span>
+    </div>
+  </header>
+
+  {lessonsByArea.map(({ area, lessons }) => (
+    <section class="blk">
+      <h2 class="blk-h2">{area.no}. {area.name}</h2>
+      <div class="cards">
+        {lessons.map((l) => (
+          <a class="card" href={`/lesson/${l.id}/`}>
+            <span class="a-no">{(l.standards ?? []).join(' · ')}</span>
+            <h3>{l.title}</h3>
+            <p>{l.lead}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+</Textbook>

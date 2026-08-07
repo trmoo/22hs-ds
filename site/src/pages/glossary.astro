@@ -1,0 +1,25 @@
+---
+import Textbook from '../layouts/Textbook.astro';
+import { glossary } from '../lib/content.js';
+const terms = glossary();
+---
+<Textbook title="용어집" showToc={false}>
+  <header class="lesson-head">
+    <h1>용어집</h1>
+    <p class="lead">본문에서 정의한 용어 {terms.length}개를 모았다. 각 용어는 처음 나온 차시로 이어진다.</p>
+  </header>
+  <dl class="blk">
+    {terms.map((t) => (
+      <div class="term-def" style="margin-bottom:.6rem">
+        <dt id={`t-${t.key}`}>{t.term}</dt>
+        <dd>
+          {t.desc}
+          <span style="display:block;margin-top:.3rem;font-size:.8rem;color:var(--c-text-faint)">
+            <a href={`/lesson/${t.lessonId}/`}>{t.lessonTitle}</a>
+            {t.also.length > 0 && <span> · 또 나오는 차시 {t.also.length}개</span>}
+          </span>
+        </dd>
+      </div>
+    ))}
+  </dl>
+</Textbook>

@@ -1,0 +1,47 @@
+---
+import Textbook from '../layouts/Textbook.astro';
+import { curriculum, publishersDoc, stats } from '../lib/content.js';
+---
+<Textbook title="집필 근거와 출처" showToc={false}>
+  <header class="lesson-head">
+    <h1>집필 근거와 출처</h1>
+    <p class="lead">이 교과서가 무엇을 근거로 쓰였고, 무엇을 쓰지 않았는지 밝힌다.</p>
+  </header>
+
+  <h2 class="blk-h2">집필 근거</h2>
+  <div class="blk prose">
+    <p>본문은 <strong>2022 개정 교육과정 「데이터 과학」의 성취기준 원문과 성취기준 해설</strong>을 근거로 새로 썼다.
+    근거의 순서는 성취기준 원문 → 성취기준 해설 → 성취기준 적용 시 고려사항이다.</p>
+    <p>차시 {stats.lessons}개가 성취기준 {stats.standards}개를 모두 담고 있다. 연결 상태는 검증 스크립트로 확인한다.</p>
+  </div>
+
+  <h2 class="blk-h2">교과서 원문을 쓰지 않았다</h2>
+  <div class="blk prose">
+    <p>출판사 교과서·지도서의 설명 문장, 예시, 삽화, 평가문항은 옮기지 않았다.
+    출판사 자료에서 가져온 것은 <strong>단원 이름·쪽수·성취기준 배치</strong>뿐이며, 이는 학생이 자기 교과서에서
+    해당 단원을 찾아가게 하는 서지 정보다. 모두 <a href="/crosswalk/">교과서 대조표</a>에만 들어 있다.</p>
+    <p>본문의 예시와 수치는 직접 만든 값이다. 학교 생활 소재(급식 잔반, 통학 시간, 교실 온도, 동아리 모금,
+    매점 구매 기록 등)를 쓰고, 실제 기관의 통계를 인용하지 않았다. 그래프의 수치가 예시임은 각 그래프 설명에 밝혔다.</p>
+  </div>
+
+  <h2 class="blk-h2">확인되지 않은 것</h2>
+  <div class="blk prose">
+    <p>확인할 수 없는 사실은 추측으로 채우지 않고 <strong>[확인필요]</strong>로 남겼다.
+    삽화는 아직 준비되지 않아 필요한 그림의 설명만 적어 두었고, 소단원 수준의 교과서 매핑도 확인되지 않았다.</p>
+  </div>
+
+  <h2 class="blk-h2">대조표 출처</h2>
+  <div class="blk tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>출판사</th><th>출처</th></tr></thead>
+      <tbody>
+        {Object.entries(publishersDoc._sources ?? {}).map(([k, v]) => (
+          <tr><th scope="row">{k}</th><td>{v}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="blk-h2">교육과정 출처</h2>
+  <div class="blk prose"><p>{curriculum._source}</p></div>
+</Textbook>

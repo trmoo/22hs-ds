@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ds-textbook",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["astro", "dev"],
+      "autoPort": true,
+      "port": 4321,
+      "cwd": "site"
+    }
+  ]
+}

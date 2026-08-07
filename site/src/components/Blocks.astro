@@ -1,0 +1,173 @@
+---
+/**
+ * 블록 배열 → HTML. 이 컴포넌트가 유일한 본문 렌더러다.
+ * 차시마다 마크업을 새로 쓰지 않는 것이 이 프로젝트의 핵심 설계다(PLAN §5-4).
+ *
+ * chart / code 블록은 서버에서 마운트 지점만 만들고, 실제 렌더는
+ * scripts/chart.js · scripts/pyrunner.js 가 브라우저에서 담당한다.
+ *
+ * 파생값은 전부 프런트매터에서 계산한다. Astro 템플릿 표현식 안에서는
+ * const 같은 문(statement)을 쓸 수 없어 컴파일이 실패한다.
+ */
+import { markdown, inline, escapeHtml, linkTerms } from '../lib/md.js';
+
+const { blocks = [] } = Astro.props;
+
+const NEEDS_CHECK = '[확인필요]';
+const CALLOUT_LABEL_FALLBACK = { concept: '핵심', warn: '주의', tip: '참고', activity: '활동' };
+const OX_LABELS = ['⭕ 그렇다', '❌ 아니다'];
+
+// 이 차시에서 정의한 용어 → 본문 첫 등장에 툴팁 버튼을 붙인다.
+const terms = blocks
+  .filter((b) => b.type === 'term' && b.term && b.desc)
+  .map((b) => ({ term: b.term, desc: b.desc }));
+
+const proseHtml = (src) => linkTerms(markdown(src), terms);
+
+/** 템플릿이 분기 없이 그릴 수 있도록 필요한 값을 모두 미리 만들어 둔다. */
+const items = blocks.map((b, i) => {
+  const key = `sec-${i}`;
+  const t = b.type;
+  return {
+    b,
+    t,
+    key,
+    // heading
+    isH3: b.level === 3,
+    // callout
+    variant: b.variant ?? 'concept',
+    calloutLabel: b.label ?? CALLOUT_LABEL_FALLBACK[b.variant ?? 'concept'] ?? '참고',
+    // 본문 계열 HTML
+    html: t === 'prose' || t === 'callout' ? proseHtml(b.md) : '',
+    descHtml: t === 'term' ? inline(b.desc) : '',
+    captionHtml: b.caption ? inline(b.caption) : '',
+    // table
+    head: b.head ?? [],
+    rows: b.rows ?? [],
+    // figure
+    figMissing: t === 'figure' ? !b.src || b.src === NEEDS_CHECK : false,
+    figNote: b.note ?? b.alt ?? '준비할 그림 설명이 없다.',
+    // chart / code
+    json: t === 'chart' || t === 'code' ? JSON.stringify(b) : '',
+    // quiz
+    quizItems: (b.items ?? []).map((q, qi) => ({
+      q,
+      no: qi + 1,
+      qHtml: inline(q.q),
+      explainHtml: inline(q.explain),
+      answerJson: JSON.stringify(q.answer),
+      isOx: q.type === 'ox',
+      choices:
+        q.type === 'ox'
+          ? OX_LABELS.map((label, ci) => ({ html: label, val: ci === 0 ? 'true' : 'false' }))
+          : (q.choices ?? []).map((c, ci) => ({ html: inline(c), val: String(ci) })),
+    })),
+    expectText: t === 'code' ? ['[예상 출력]', b.expect ?? ''].join(String.fromCharCode(10)) : '',
+    isH2: t === 'heading' && b.level !== 3,
+    isHead3: t === 'heading' && b.level === 3,
+    figTodo: t === 'figure' && (!b.src || b.src === NEEDS_CHECK),
+    figShow: t === 'figure' && !(!b.src || b.src === NEEDS_CHECK),
+    known: ['heading','prose','callout','term','table','chart','code','figure','quiz'].includes(t),
+    typeLabel: escapeHtml(t),
+  };
+});
+---
+
+{items.map((it) => (
+  <>
+    {it.isH2 && <h2 id={it.key} class="blk-h2" tabindex="-1">{it.b.text}</h2>}
+    {it.isHead3 && <h3 id={it.key} class="blk-h3" tabindex="-1">{it.b.text}</h3>}
+
+    {it.t === 'prose' && <div class="blk prose" set:html={it.html} />}
+
+    {it.t === 'callout' && (
+      <aside class={`blk callout ${it.variant}`}>
+        <strong class="c-label">{it.calloutLabel}</strong>
+        <div set:html={it.html} />
+      </aside>
+    )}
+
+    {it.t === 'term' && (
+      <dl class="blk term-def">
+        <dt>{it.b.term}</dt>
+        <dd set:html={it.descHtml} />
+      </dl>
+    )}
+
+    {it.t === 'table' && (
+      <div class="blk tbl-wrap">
+        <table class="tbl">
+          {it.b.caption && <caption set:html={it.captionHtml} />}
+          <thead>
+            <tr>{it.head.map((h) => <th scope="col" set:html={inline(h)} />)}</tr>
+          </thead>
+          <tbody>
+            {it.rows.map((r) => (
+              <tr>
+                {r.map((c, ci) => (ci === 0 ? <th scope="row" set:html={inline(c)} /> : <td set:html={inline(c)} />))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+
+    {it.t === 'chart' && <div class="blk chart" data-chart={it.json} />}
+
+    {it.t === 'code' && (
+      <div class="blk pyrun-mount" data-pycode={it.json}>
+        <noscript>
+          <figure class="pyrun">
+            <figcaption class="pyrun-cap">파이썬 코드<span class="pyrun-status">실행에는 자바스크립트가 필요하다</span></figcaption>
+            <pre class="pyrun-code"><code>{it.b.source}</code></pre>
+            <pre class="pyrun-out">{it.expectText}</pre>
+          </figure>
+        </noscript>
+      </div>
+    )}
+
+    {it.figTodo && (
+      <figure class="blk fig">
+        <div class="fig-todo">
+          <strong>{NEEDS_CHECK} 삽화</strong>
+          <span>{it.figNote}</span>
+        </div>
+        {it.b.caption && <figcaption set:html={it.captionHtml} />}
+      </figure>
+    )}
+    {it.figShow && (
+      <figure class="blk fig">
+        <img src={it.b.src} alt={it.b.alt ?? ''} width={it.b.w} height={it.b.h} loading="lazy" decoding="async" />
+        {it.b.caption && <figcaption set:html={it.captionHtml} />}
+      </figure>
+    )}
+
+    {it.t === 'quiz' && (
+      <section class="blk quiz" data-quiz aria-labelledby={`${it.key}-h`}>
+        <h3 id={`${it.key}-h`}>확인 문제</h3>
+        <p class="q-sub">{it.quizItems.length}문항 · 고르면 바로 채점된다</p>
+        {it.quizItems.map((qi) => (
+          <div class="q-item" data-answer={qi.answerJson} data-qtype={qi.q.type}>
+            <p class="q-text">
+              <span class="q-no" aria-hidden="true">{qi.no}</span>
+              <span set:html={qi.qHtml} />
+            </p>
+            <div class={qi.isOx ? 'q-choices ox' : 'q-choices'} role="group" aria-label={`${qi.no}번 문항 선택지`}>
+              {qi.choices.map((c) => (
+                <button type="button" class="q-choice" data-val={c.val} set:html={c.html} />
+              ))}
+            </div>
+            <p class="q-fb" role="status" aria-live="polite">
+              <span class="v"></span><span class="x" set:html={qi.explainHtml} />
+            </p>
+          </div>
+        ))}
+        <p class="quiz-score" aria-live="polite"></p>
+      </section>
+    )}
+
+    {!it.known && (
+      <div class="blk prose"><p><em>지원하지 않는 블록 유형: {it.typeLabel}</em></p></div>
+    )}
+  </>
+))}

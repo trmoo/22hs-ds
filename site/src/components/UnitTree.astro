@@ -1,0 +1,40 @@
+---
+/**
+ * 좌측 단원 트리.
+ *
+ * 라벨은 항상 교육과정 기준(영역명·차시 제목·성취기준 코드)이다.
+ * 특정 출판사 단원명으로 바꾸는 기능은 두지 않는다 — 어느 교과서를 쓰든 같은 화면을 본다.
+ * 교과서별 위치는 차시 하단의 "내 교과서에서 찾기"와 /crosswalk/ 에서 3사를 나란히 보여 준다.
+ */
+const { groups = [], currentId = null } = Astro.props;
+---
+<p class="tree-h">교육과정 영역</p>
+
+{groups.map(({ area, lessons }) => {
+  const open = lessons.some((l) => l.id === currentId) || currentId === null;
+  return (
+    <details class="tree-area" open={open}>
+      <summary><span class="a-no">{area.no}</span><span>{area.name}</span></summary>
+      <ul class="tree-list">
+        {lessons.map((l) => (
+          <li>
+            <a href={`/lesson/${l.id}/`}
+               aria-current={l.id === currentId ? 'page' : undefined}
+               data-lesson={l.id}>
+              <span class="code">{(l.standards ?? []).join(' · ')}</span>
+              <span class="t">{l.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+})}
+
+<p class="tree-h" style="margin-top:1.25rem">참고</p>
+<ul class="tree-list" style="border-left-color:transparent">
+  <li><a href="/standards/">성취기준 19개 일람</a></li>
+  <li><a href="/crosswalk/">교과서 대조표</a></li>
+  <li><a href="/glossary/">용어집</a></li>
+  <li><a href="/about/">집필 근거와 출처</a></li>
+</ul>
