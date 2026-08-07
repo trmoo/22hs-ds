@@ -1,0 +1,83 @@
+---
+import Textbook from '../../layouts/Textbook.astro';
+import Blocks from '../../components/Blocks.astro';
+import { lessons, areaById, getStandard, neighbors, tocOf, crosswalkFor } from '../../lib/content.js';
+
+export function getStaticPaths() {
+  return lessons.map((l) => ({ params: { id: l.id }, props: { lesson: l } }));
+}
+
+const { lesson } = Astro.props;
+const area = areaById.get(lesson.areaId);
+const stds = (lesson.standards ?? []).map(getStandard).filter(Boolean);
+const { prev, next } = neighbors(lesson.id);
+const toc = tocOf(lesson);
+const cw = crosswalkFor(lesson.standards ?? []);
+---
+<Textbook title={lesson.title} currentId={lesson.id} toc={toc}>
+  <script is:inline set:html={`document.body.dataset.lesson = ${JSON.stringify(lesson.id)};`} />
+
+  <header class="lesson-head">
+    <p class="eyebrow">{area?.no}. {area?.name} · {lesson.order}차시</p>
+    <h1>{lesson.title}</h1>
+    <p class="lead">{lesson.lead}</p>
+    <div class="meta">
+      {(lesson.standards ?? []).map((c) => <a class="badge" href={`/standards/#${c}`}>{c}</a>)}
+      <span class="chip">권장 {lesson.periods}</span>
+      {(lesson.keywords ?? []).map((k) => <span class="chip">{k}</span>)}
+    </div>
+  </header>
+
+  {(lesson.objectives ?? []).length > 0 && (
+    <aside class="blk callout concept">
+      <strong class="c-label">학습 목표</strong>
+      <ul>{lesson.objectives.map((o) => <li>{o}</li>)}</ul>
+    </aside>
+  )}
+
+  <Blocks blocks={lesson.blocks ?? []} />
+
+  <section class="blk cw-box" aria-labelledby="cw-h">
+    <h3 id="cw-h">내 교과서에서 찾기</h3>
+    {cw.map(({ publisher, hits }) => (
+      <div class="cw-row">
+        <span class="pub">{publisher.name}</span>
+        <span class="loc">
+          {hits.length === 0
+            ? <em>[확인필요] 대응 단원이 확인되지 않았다.</em>
+            : hits.map((h) => (
+                <span>
+                  {h.unit} › {h.chapter}
+                  {!h.verified && <span class="badge warn"> [확인필요]</span>}
+                  {h.sections.length > 0 && (
+                    <span class="sec">{h.sections.map((s) => s.label + (s.page ? ` (${s.page}쪽)` : '')).join(' · ')}</span>
+                  )}
+                </span>
+              ))}
+        </span>
+      </div>
+    ))}
+  </section>
+
+  <nav class="navfoot" aria-label="차시 이동">
+    {prev
+      ? <a href={`/lesson/${prev.id}/`}><span class="dir">← 이전</span><span class="to">{prev.title}</span></a>
+      : <a href="/"><span class="dir">← 이전</span><span class="to">과목 처음</span></a>}
+    {next
+      ? <a class="next" href={`/lesson/${next.id}/`}><span class="dir">다음 →</span><span class="to">{next.title}</span></a>
+      : <a class="next" href="/standards/"><span class="dir">마지막 차시</span><span class="to">성취기준 일람</span></a>}
+  </nav>
+
+  <Fragment slot="aside">
+    <div class="std-card">
+      <h3>이 차시의 성취기준</h3>
+      {stds.map((s) => (
+        <div class="std-item" id={`std-${s.code}`}>
+          <span class="badge">{s.code}</span>
+          <p>{s.text}</p>
+          {s.commentary && <p class="cm"><strong>해설</strong> {s.commentary}</p>}
+        </div>
+      ))}
+    </div>
+  </Fragment>
+</Textbook>

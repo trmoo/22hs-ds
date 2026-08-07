@@ -1,0 +1,84 @@
+---
+import Textbook from '../layouts/Textbook.astro';
+import { standards, areas, publishers, publishersDoc, crosswalkFor } from '../lib/content.js';
+---
+<Textbook title="교과서 대조표" showToc={false}>
+  <header class="lesson-head">
+    <h1>교과서 대조표</h1>
+    <p class="lead">
+      성취기준을 기준으로 3사 교과서의 위치를 맞춰 둔 표다.
+      우리 학교가 어느 교과서를 쓰든 해당 단원을 찾아가는 용도이며, 교과서 본문을 대신하지 않는다.
+    </p>
+  </header>
+
+  <aside class="blk callout tip">
+    <strong class="c-label">교과서를 고르는 기능은 두지 않았다</strong>
+    <p>이 교과서의 기준은 출판사가 아니라 성취기준이다. 특정 교과서를 기본값으로 두면 화면이 그 교과서 중심으로
+    읽히므로, 어떤 출판사도 선택하지 않고 <strong>3사를 나란히</strong> 보여 준다. 실린 순서는 우열이나 권장을 뜻하지 않는다.</p>
+  </aside>
+
+  <aside class="blk callout warn">
+    <strong class="c-label">이 표를 읽는 방법</strong>
+    <p>매핑은 <strong>중단원 수준</strong>이다. 소단원 수준 매핑은 어느 출판사도 확인되지 않아 비워 두었다.
+    <strong>[확인필요]</strong> 표시는 근거 자료에서 확인하지 못한 항목이며, 추측으로 채우지 않았다.</p>
+  </aside>
+
+  <div class="blk tbl-wrap">
+    <table class="tbl">
+      <caption>근거: YBM·천재는 지도서, 씨마스는 교과서 차례. 자세한 출처는 아래에 있다.</caption>
+      <thead>
+        <tr>
+          <th scope="col">성취기준</th>
+          {publishers.map((p) => <th scope="col">{p.name}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {areas.map((a) => (
+          <>
+            <tr><th scope="rowgroup" colspan={publishers.length + 1} style="background:var(--c-surface-2)">{a.no}. {a.name}</th></tr>
+            {standards.filter((s) => s.areaId === a.id).map((s) => {
+              const row = crosswalkFor([s.code]);
+              return (
+                <tr>
+                  <th scope="row"><a class="badge" href={`/standards/#${s.code}`}>{s.code}</a></th>
+                  {row.map(({ hits }) => (
+                    <td>{hits.length === 0
+                      ? <em style="color:var(--c-text-faint)">[확인필요]</em>
+                      : hits.map((h) => <span style="display:block">{h.unit.split('.')[0]}-{h.chapter}{!h.verified && ' *'}</span>)}</td>
+                  ))}
+                </tr>
+              );
+            })}
+          </>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.82rem;color:var(--c-text-faint)">* 표시는 [확인필요] 항목이다.</p>
+
+  <h2 class="blk-h2">출판사별 구조와 출처</h2>
+  {publishers.map((p) => (
+    <section class="blk cw-box">
+      <h3>{p.name} · {p.author} · 실습 도구 {p.tool}</h3>
+      <p style="font-size:.82rem;color:var(--c-text-faint);margin:0 0 .6rem">{publishersDoc._sources?.[p.id]}</p>
+      {(p.units ?? []).map((u) => (
+        <div class="cw-row">
+          <span class="pub">{u.no}. {u.name}</span>
+          <span class="loc">
+            {(u.chapters ?? []).map((c) => (
+              <span style="display:block">
+                {c.no}. {c.name}
+                {(c.standards ?? []).length > 0
+                  ? <span> — {c.standards.join(', ')}{!c.verified && ' [확인필요]'}</span>
+                  : <span> — <em>[확인필요]</em></span>}
+                {(c.sections ?? []).length > 0 && (
+                  <span class="sec">{c.sections.map((x) => `${x.no} ${x.name}${x.page ? ` (${x.page}쪽)` : ''}`).join(' · ')}</span>
+                )}
+              </span>
+            ))}
+          </span>
+        </div>
+      ))}
+    </section>
+  ))}
+</Textbook>

@@ -1,0 +1,31 @@
+---
+import Textbook from '../layouts/Textbook.astro';
+import { areas, standards } from '../lib/content.js';
+---
+<Textbook title="검색" showToc={false}>
+  <header class="lesson-head">
+    <h1>검색</h1>
+    <p class="lead">본문·용어·성취기준 코드로 찾을 수 있다. <code class="inline-code">12데과03-04</code>처럼 코드를 그대로 넣어도 된다.</p>
+  </header>
+
+  <form role="search" id="sform">
+    <label class="sr-only" for="sq">검색어</label>
+    <input id="sq" name="q" type="search" placeholder="예: 정규화, 향상도, 12데과02-02"
+           style="width:100%;font:inherit;padding:.6rem .9rem;border:1px solid var(--c-border);border-radius:var(--radius);background:var(--c-surface);color:var(--c-text)" />
+  </form>
+
+  <div class="filters" id="area-filters" role="group" aria-label="영역 필터">
+    {areas.map((a) => <button type="button" data-area={a.id} aria-pressed="false">{a.no}. {a.name}</button>)}
+  </div>
+  <div class="filters" id="std-filters" role="group" aria-label="성취기준 필터">
+    {standards.map((s) => <button type="button" data-std={s.code} aria-pressed="false">{s.code}</button>)}
+  </div>
+
+  <p id="scount" style="font-size:.85rem;color:var(--c-text-soft)" aria-live="polite"></p>
+  <ul class="results" id="sresults"></ul>
+
+  <script>
+    import { initSearch } from '../scripts/search.js';
+    initSearch();
+  </script>
+</Textbook>

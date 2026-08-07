@@ -1,0 +1,44 @@
+---
+import Textbook from '../layouts/Textbook.astro';
+import { areas, standards, lessons, crosswalkFor } from '../lib/content.js';
+const lessonsOf = (code) => lessons.filter((l) => (l.standards ?? []).includes(code));
+---
+<Textbook title="성취기준 일람" showToc={false}>
+  <header class="lesson-head">
+    <h1>성취기준 {standards.length}개</h1>
+    <p class="lead">교육과정 고시 원문이다. 코드를 누르면 해당 차시로 갈 수 있다.</p>
+  </header>
+
+  {areas.map((a) => (
+    <section class="blk">
+      <h2 class="blk-h2">{a.no}. {a.name}</h2>
+      {standards.filter((s) => s.areaId === a.id).map((s) => (
+        <div class="std-card" id={s.code}>
+          <span class="badge">{s.code}</span>
+          <p style="margin:.4rem 0 0;font-weight:600">{s.text}</p>
+          {s.commentary && <p class="cm" style="font-size:.85rem;color:var(--c-text-soft);margin-top:.4rem"><strong>해설</strong> {s.commentary}</p>}
+          <p style="margin:.6rem 0 0;font-size:.85rem">
+            <strong>차시</strong>{' '}
+            {lessonsOf(s.code).map((l) => <a href={`/lesson/${l.id}/`}>{l.title}</a>)}
+            {lessonsOf(s.code).length === 0 && <em>[확인필요] 연결된 차시가 없다.</em>}
+          </p>
+          <details style="margin-top:.5rem">
+            <summary style="cursor:pointer;font-size:.82rem;color:var(--c-text-soft)">교과서별 위치</summary>
+            {crosswalkFor([s.code]).map(({ publisher, hits }) => (
+              <div class="cw-row">
+                <span class="pub">{publisher.name}</span>
+                <span class="loc">{hits.length === 0
+                  ? <em>[확인필요]</em>
+                  : hits.map((h) => <span>{h.unit} › {h.chapter}{!h.verified && ' [확인필요]'}</span>)}</span>
+              </div>
+            ))}
+          </details>
+        </div>
+      ))}
+      <details class="blk" style="font-size:.86rem">
+        <summary style="cursor:pointer;font-weight:700">성취기준 적용 시 고려사항</summary>
+        <ul>{(a.considerations ?? []).map((c) => <li>{c}</li>)}</ul>
+      </details>
+    </section>
+  ))}
+</Textbook>

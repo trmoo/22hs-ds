@@ -1,0 +1,41 @@
+# 이 저장소에는 웹교과서 소스만 포함합니다.
+# 출판사 교과서·지도서 파일은 절대 포함하지 않습니다.
+
+# 문서 파일 (저작권 자료가 실수로 들어오는 것을 막는 안전장치)
+*.pdf
+*.hwp
+*.hwpx
+*.pptx
+*.ppt
+*.docx
+*.doc
+*.xlsx
+*.zip
+
+# 의존성 — npm install 로 복원한다
+site/node_modules/
+
+# 빌드 산출물 — npm run build 로 재생성한다
+site/dist/
+site/.astro/
+
+# 검증 스크립트 출력물 (자동 생성)
+docs/validation-report.md
+
+# 파이썬 캐시
+__pycache__/
+*.pyc
+
+# 운영체제 · 편집기
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+
+# OneDrive 동기화 부산물
+*.tmp
+~$*
