@@ -6,6 +6,8 @@
  * 정적 파일이라 서버 로직이 없고, 배포본을 그대로 열면 오프라인에서도 동작한다.
  */
 
+import { url } from '../lib/url.js';
+
 const AREA_NO = { 1: 'Ⅰ', 2: 'Ⅱ', 3: 'Ⅲ', 4: 'Ⅳ' };
 const STD_RE = /12데과\d{2}-\d{2}/g;
 
@@ -37,7 +39,7 @@ export async function initSearch() {
   // 색인은 별도 정적 파일에서 가져온다(페이지 무게를 줄이기 위해).
   let idx = [];
   try {
-    const res = await fetch('/search-index.json');
+    const res = await fetch(url('search-index.json'));
     if (res.ok) idx = await res.json();
   } catch (e) {
     console.error('[search] 색인을 불러오지 못했다', e);
@@ -95,7 +97,7 @@ export async function initSearch() {
     for (const r of rows) {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = `/lesson/${r.id}/`;
+      a.href = url(`lesson/${r.id}/`);
       a.innerHTML = highlight(r.title, q);
       const meta = document.createElement('p');
       meta.className = 'snip';

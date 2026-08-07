@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "build:pages": "node -e \"process.env.BASE='/22hs-ds/';require('child_process').execSync('npx astro build',{stdio:'inherit',env:process.env})\""
   },
   "dependencies": {
     "astro": "^5.18.2"

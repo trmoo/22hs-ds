@@ -6,6 +6,7 @@
 import '../styles/global.css';
 import UnitTree from '../components/UnitTree.astro';
 import { lessonsByArea, stats } from '../lib/content.js';
+import { url } from '../lib/url.js';
 
 const { title, currentId = null, showToc = true, toc = [] } = Astro.props;
 ---
@@ -30,15 +31,15 @@ const { title, currentId = null, showToc = true, toc = [] } = Astro.props;
 
   <header class="hdr">
     <button id="nav-toggle" class="hdr-btn" aria-expanded="false" aria-controls="unit-tree">☰ 단원</button>
-    <a class="brand" href="/">데이터 과학<small>2022 개정 · 성취기준 기반 웹교과서</small></a>
+    <a class="brand" href={url()}>데이터 과학<small>2022 개정 · 성취기준 기반 웹교과서</small></a>
     <span class="grow"></span>
 
-    <form class="searchbox" role="search" action="/search/" method="get">
+    <form class="searchbox" role="search" action={url("search/")} method="get">
       <label class="sr-only" for="q">검색</label>
       <input id="q" name="q" type="search" placeholder="내용·성취기준 코드 검색" autocomplete="off" />
     </form>
 
-    <a class="hdr-btn" href="/crosswalk/">교과서 대조표</a>
+    <a class="hdr-btn" href={url("crosswalk/")}>교과서 대조표</a>
 
     <button id="theme-toggle" class="hdr-btn" title="밝은/어두운 화면 전환" aria-label="화면 밝기 전환">◐</button>
   </header>
@@ -75,9 +76,9 @@ const { title, currentId = null, showToc = true, toc = [] } = Astro.props;
     <div class="fwrap">
       <span>데이터 과학 웹교과서 · 2022 개정 교육과정 (고등학교 진로 선택)</span>
       <span class="spacer"></span>
-      <a href="/standards/">성취기준</a>
-      <a href="/crosswalk/">교과서 대조표</a>
-      <a href="/about/">집필 근거</a>
+      <a href={url("standards/")}>성취기준</a>
+      <a href={url("crosswalk/")}>교과서 대조표</a>
+      <a href={url("about/")}>집필 근거</a>
     </div>
     <div class="flic">
       <div>제작 및 문의 : <a href="mailto:enssam21@gmail.com">enssam21@gmail.com</a></div>

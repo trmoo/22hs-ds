@@ -2,6 +2,7 @@
 import Textbook from '../../layouts/Textbook.astro';
 import Blocks from '../../components/Blocks.astro';
 import { lessons, areaById, getStandard, neighbors, tocOf, crosswalkFor } from '../../lib/content.js';
+import { url } from '../../lib/url.js';
 
 export function getStaticPaths() {
   return lessons.map((l) => ({ params: { id: l.id }, props: { lesson: l } }));
@@ -22,7 +23,7 @@ const cw = crosswalkFor(lesson.standards ?? []);
     <h1>{lesson.title}</h1>
     <p class="lead">{lesson.lead}</p>
     <div class="meta">
-      {(lesson.standards ?? []).map((c) => <a class="badge" href={`/standards/#${c}`}>{c}</a>)}
+      {(lesson.standards ?? []).map((c) => <a class="badge" href={url(`standards/#${c}`)}>{c}</a>)}
       <span class="chip">권장 {lesson.periods}</span>
       {(lesson.keywords ?? []).map((k) => <span class="chip">{k}</span>)}
     </div>
@@ -61,11 +62,11 @@ const cw = crosswalkFor(lesson.standards ?? []);
 
   <nav class="navfoot" aria-label="차시 이동">
     {prev
-      ? <a href={`/lesson/${prev.id}/`}><span class="dir">← 이전</span><span class="to">{prev.title}</span></a>
-      : <a href="/"><span class="dir">← 이전</span><span class="to">과목 처음</span></a>}
+      ? <a href={url(`lesson/${prev.id}/`)}><span class="dir">← 이전</span><span class="to">{prev.title}</span></a>
+      : <a href={url()}><span class="dir">← 이전</span><span class="to">과목 처음</span></a>}
     {next
-      ? <a class="next" href={`/lesson/${next.id}/`}><span class="dir">다음 →</span><span class="to">{next.title}</span></a>
-      : <a class="next" href="/standards/"><span class="dir">마지막 차시</span><span class="to">성취기준 일람</span></a>}
+      ? <a class="next" href={url(`lesson/${next.id}/`)}><span class="dir">다음 →</span><span class="to">{next.title}</span></a>
+      : <a class="next" href={url("standards/")}><span class="dir">마지막 차시</span><span class="to">성취기준 일람</span></a>}
   </nav>
 
   <Fragment slot="aside">
