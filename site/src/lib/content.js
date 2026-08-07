@@ -65,7 +65,8 @@ export function crosswalkFor(codes) {
             chapter: `${c.no}. ${c.name}`,
             sections: (c.sections ?? []).map((s) => ({ label: `${s.no} ${s.name}`, page: s.page })),
             standards: matched,
-            verified: c.verified === true,
+            confidence: c.confidence ?? 'unknown',
+            basis: c.basis ?? null,
           });
         }
       }
