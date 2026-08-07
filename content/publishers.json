@@ -2,10 +2,10 @@
   "_purpose": "출판사 대조표. 용도는 '우리 학교가 쓰는 교과서에서 이 성취기준이 몇 단원인지 찾아가게 하는 것'뿐이다. 교과서 본문·삽화·문항은 담지 않는다.",
   "_sources": {
     "ybm": "중단원명·성취기준 매핑 = 지도서 각론 p3·25·41·63에서 전사(검증). 소단원명 = 강의용 PPT 파일명 21개에서 전사(검증). 소단원 쪽수 = 미확인.",
-    "cmass": "대·중·소단원명과 쪽수 = 교과서 차례 p6~7에서 전사(검증). 성취기준 매핑 = 지도서를 보유하지 않아 출판사 명시값을 확인할 수 없으므로, 대단원 도입 「이 단원에서는」 문단과 중단원별 「내 실력 점검하기」 평가 기준을 성취기준 원문·해설과 대조해 판정(confidence: derived). 실습 도구 = 오렌지 설치 안내(225쪽)와 pandas 코드(209쪽)로 확인.",
+    "cmass": "대·중·소단원명과 쪽수 = 교과서 차례 p6~7. 성취기준 매핑 = 교사용 지도서 각론 「소단원 지도 계획」에서 소단원별로 전사(p98~309). 3사 중 유일하게 소단원 수준까지 명시값을 확보했다. 실습 도구 = 오렌지 설치 안내(교과서 225쪽)와 pandas 코드(209쪽). 03-05·03-06 은 Ⅲ-2 「2-2 연관분석」의 단원 정리 단계에 배치되며 성취수준표는 QR로 제공된다.",
     "chunjae": "중단원명·성취기준 매핑 = 지도서 대단원 개관 p42·66·100·144에서 전사(검증). 소단원명 = 지도서 2부 교사용 교과서 차례에서 전사(검증)."
   },
-  "_mappingLevel": "성취기준 매핑은 중단원(chapter) 수준이다. confidence 는 근거의 성격을 나타낸다 — stated: 출판사가 성취기준 코드를 명시(YBM·천재 지도서) / derived: 교과서 본문의 단원 목표·평가 기준을 성취기준과 대조해 판정(씨마스) / unknown: 미확인. 소단원(section) 수준 매핑은 3사 모두 unknown 이다.",
+  "_mappingLevel": "성취기준 매핑의 confidence — stated: 출판사 자료에 명시(YBM·씨마스·천재 지도서) / derived: 교과서 본문 대조로 판정 / unknown: 미확인. 소단원(section) 수준은 씨마스만 stated 이고 YBM·천재는 unknown 이다.",
   "publishers": [
     {
       "id": "ybm",
@@ -333,19 +333,25 @@
                   "no": "1-1",
                   "name": "데이터 과학의 개념",
                   "page": 14,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과01-01"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p98"
                 },
                 {
                   "no": "1-2",
                   "name": "데이터의 형태와 속성",
                   "page": 22,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과01-02"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p99"
                 }
               ],
-              "confidence": "derived",
-              "basis": "대단원 도입 「이 단원에서는」(교과서 5쪽) + 중단원 평가 기준(26쪽: 정형·비정형 개념, 수치형·범주형 구분, 데이터 기반 합리적 의사 결정 태도)"
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             },
             {
               "no": "2",
@@ -359,19 +365,25 @@
                   "no": "2-1",
                   "name": "데이터와 데이터베이스",
                   "page": 34,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과01-03"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p100"
                 },
                 {
                   "no": "2-2",
                   "name": "데이터와 미래 사회",
                   "page": 48,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과01-04"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p101"
                 }
               ],
-              "confidence": "derived",
-              "basis": "중단원 평가 기준(48쪽: 데이터베이스의 기능과 필요성, 서로 다른 데이터셋 간 공통 속성 기준 통합) + 소단원 2-2 「데이터와 미래 사회」"
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             }
           ]
         },
@@ -391,19 +403,25 @@
                   "no": "1-1",
                   "name": "데이터 수집과 선택",
                   "page": 62,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과02-01"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p160"
                 },
                 {
                   "no": "1-2",
                   "name": "데이터 전처리와 시각화",
                   "page": 70,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과02-02"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p161"
                 }
               ],
-              "confidence": "derived",
-              "basis": "중단원 평가 기준(80쪽: 전처리 개념·필요성, 전처리하고 시각화, 편향되지 않게 수집) — 대단원 도입(53쪽)이 성취기준 원문과 거의 문장 단위로 일치"
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             },
             {
               "no": "2",
@@ -417,19 +435,25 @@
                   "no": "2-1",
                   "name": "데이터 분석 방법",
                   "page": 88,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과02-03"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p162"
                 },
                 {
                   "no": "2-2",
                   "name": "데이터 분석의 실제",
                   "page": 102,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과02-04"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p163"
                 }
               ],
-              "confidence": "derived",
-              "basis": "중단원 평가 기준(110쪽: 탐색적 데이터 분석, 두 속성 간 상관관계 분석) + 대단원 도입(53쪽) \"동일한 데이터를 다양한 분석 방법에 적용함으로써 결과를 비교\""
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             }
           ]
         },
@@ -442,27 +466,32 @@
               "name": "데이터 모델과 회귀분석",
               "standards": [
                 "12데과03-01",
-                "12데과03-02",
-                "12데과03-05"
+                "12데과03-02"
               ],
               "sections": [
                 {
                   "no": "1-1",
                   "name": "데이터 모델",
                   "page": 124,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과03-01"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p238"
                 },
                 {
                   "no": "1-2",
                   "name": "회귀분석",
                   "page": 130,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과03-02"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p239"
                 }
               ],
-              "confidence": "derived",
-              "basis": "중단원 평가 기준(136쪽: 회귀 모델 정의, 통계적 회귀 모델과 기계학습 회귀 모델의 특징·결과 해석) + 성능 평가(134~135쪽)"
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             },
             {
               "no": "2",
@@ -478,19 +507,27 @@
                   "no": "2-1",
                   "name": "군집분석",
                   "page": 144,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과03-03"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p240"
                 },
                 {
                   "no": "2-2",
                   "name": "연관분석",
                   "page": 154,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과03-04",
+                    "12데과03-05",
+                    "12데과03-06"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p241"
                 }
               ],
-              "confidence": "derived",
-              "basis": "중단원 평가 기준(162쪽: 군집 분석, 여러 속성의 유사성으로 군집 형성) + 지지도·신뢰도·향상도(152~161쪽) + 대단원 도입(115쪽) \"분석 결과를 평가\", \"다양한 분석 방법을 검토하여 적절한 방법을 선택\""
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             }
           ]
         },
@@ -510,19 +547,25 @@
                   "no": "1-1",
                   "name": "데이터 과학으로 문제 해결",
                   "page": 176,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과04-01"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p306"
                 },
                 {
                   "no": "1-2",
                   "name": "일상생활의 데이터에 기반한 스트레스 지수 예측",
                   "page": 182,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과04-02"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p307"
                 }
               ],
-              "confidence": "derived",
-              "basis": "대단원 도입(167쪽) \"다양한 분야에서의 데이터 과학 사례를 조사\", \"탐색적 데이터 분석\" + 분야별 사례(173~174쪽), 데이터 적합성(175쪽)"
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             },
             {
               "no": "2",
@@ -537,19 +580,26 @@
                   "no": "2-1",
                   "name": "영화 데이터 분석과 관객 수 예측",
                   "page": 198,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과04-03"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p308"
                 },
                 {
                   "no": "2-2",
                   "name": "긴급 지원이 필요한 국가 군집 분석",
                   "page": 210,
-                  "standards": [],
-                  "confidence": "unknown"
+                  "standards": [
+                    "12데과04-04",
+                    "12데과04-05"
+                  ],
+                  "confidence": "stated",
+                  "basis": "지도서 각론 「소단원 지도 계획」 p309"
                 }
               ],
-              "confidence": "derived",
-              "basis": "대단원 도입(167쪽) \"다양한 분석 방법을 활용하여 데이터를 분석함으로써 현실 문제를 해결\", \"분석 결과를 해석하고 사회적 영향과 윤리적 문제를 고려하여 활용 방안을 모색\" + 프로젝트 2건(198·210쪽)"
+              "confidence": "stated",
+              "basis": "지도서 각론 「소단원 지도 계획」에 소단원별 성취기준 명시(p98~309)"
             }
           ]
         }

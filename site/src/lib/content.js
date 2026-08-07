@@ -63,7 +63,15 @@ export function crosswalkFor(codes) {
           hits.push({
             unit: `${u.no}. ${u.name}`,
             chapter: `${c.no}. ${c.name}`,
-            sections: (c.sections ?? []).map((s) => ({ label: `${s.no} ${s.name}`, page: s.page })),
+            // 소단원 수준 매핑이 있으면 해당 성취기준을 다루는 소단원만 남긴다(씨마스).
+            // 매핑이 없으면(YBM·천재) 중단원의 소단원을 그대로 보여 준다.
+            sections: (c.sections ?? [])
+              .filter((s) => !(s.standards ?? []).length || (s.standards ?? []).some((x) => wanted.has(x)))
+              .map((s) => ({
+                label: `${s.no} ${s.name}`,
+                page: s.page,
+                pinpoint: (s.standards ?? []).some((x) => wanted.has(x)),
+              })),
             standards: matched,
             confidence: c.confidence ?? 'unknown',
             basis: c.basis ?? null,
