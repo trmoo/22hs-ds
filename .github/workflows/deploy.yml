@@ -1,0 +1,67 @@
+# GitHub Pages 배포.
+# main 브랜치에 푸시하면 사이트를 빌드해 https://trmoo.github.io/22hs-ds/ 에 올린다.
+#
+# 최초 1회 저장소 설정이 필요하다:
+#   Settings → Pages → Build and deployment → Source 를 "GitHub Actions" 로 변경
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:      # 필요할 때 수동 실행
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치지 않게 한 번에 하나만 진행한다
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: 의존성 설치
+        working-directory: site
+        run: npm ci
+
+      - name: 콘텐츠 검증 (성취기준 매핑·스키마)
+        run: python3 scripts/validate.py --strict
+
+      - name: 모듈 검증
+        working-directory: site
+        run: |
+          node test/chart.test.mjs
+          node test/pyrunner.test.mjs
+
+      - name: 빌드 (Pages 하위 경로)
+        working-directory: site
+        env:
+          BASE: /22hs-ds/
+        run: npx astro build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

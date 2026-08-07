@@ -1,6 +1,7 @@
 ---
 import Textbook from '../layouts/Textbook.astro';
 import { glossary } from '../lib/content.js';
+import { url } from '../lib/url.js';
 const terms = glossary();
 ---
 <Textbook title="용어집" showToc={false}>
@@ -15,7 +16,7 @@ const terms = glossary();
         <dd>
           {t.desc}
           <span style="display:block;margin-top:.3rem;font-size:.8rem;color:var(--c-text-faint)">
-            <a href={`/lesson/${t.lessonId}/`}>{t.lessonTitle}</a>
+            <a href={url(`lesson/${t.lessonId}/`)}>{t.lessonTitle}</a>
             {t.also.length > 0 && <span> · 또 나오는 차시 {t.also.length}개</span>}
           </span>
         </dd>

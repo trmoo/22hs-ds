@@ -1,6 +1,7 @@
 ---
 import Textbook from '../layouts/Textbook.astro';
 import { areas, standards, lessons, crosswalkFor } from '../lib/content.js';
+import { url } from '../lib/url.js';
 const lessonsOf = (code) => lessons.filter((l) => (l.standards ?? []).includes(code));
 ---
 <Textbook title="성취기준 일람" showToc={false}>
@@ -19,7 +20,7 @@ const lessonsOf = (code) => lessons.filter((l) => (l.standards ?? []).includes(c
           {s.commentary && <p class="cm" style="font-size:.85rem;color:var(--c-text-soft);margin-top:.4rem"><strong>해설</strong> {s.commentary}</p>}
           <p style="margin:.6rem 0 0;font-size:.85rem">
             <strong>차시</strong>{' '}
-            {lessonsOf(s.code).map((l) => <a href={`/lesson/${l.id}/`}>{l.title}</a>)}
+            {lessonsOf(s.code).map((l) => <a href={url(`lesson/${l.id}/`)}>{l.title}</a>)}
             {lessonsOf(s.code).length === 0 && <em>[확인필요] 연결된 차시가 없다.</em>}
           </p>
           <details style="margin-top:.5rem">

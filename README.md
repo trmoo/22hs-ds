@@ -7,6 +7,10 @@
 교과서 출판사가 아니라 **성취기준이 뼈대**입니다. 모든 차시는 성취기준 코드에 연결되어 있고,
 학교가 어느 교과서를 쓰든 해당 단원을 찾아갈 수 있도록 3사 대조표를 함께 제공합니다.
 
+## 🔗 바로 학습하기
+
+**https://trmoo.github.io/22hs-ds/**
+
 ## 구성
 
 | 구성 | 수량 |
@@ -42,10 +46,15 @@
 ```bash
 cd site
 npm install
-npm run dev      # 개발 서버
-npm run build    # site/dist/ 에 정적 파일 25쪽 생성
-python serve.py  # 만들어진 파일을 파이썬만으로 열기 (학교 전산실·USB 배포용)
+npm run dev          # 개발 서버
+npm run build        # site/dist/ 에 정적 파일 25쪽 생성 (경로 기준 /)
+python serve.py      # 만들어진 파일을 파이썬만으로 열기 (학교 전산실·USB 배포용)
+
+npm run build:pages  # GitHub Pages 용 빌드 (경로 기준 /22hs-ds/)
 ```
+
+`main` 브랜치에 푸시하면 [Actions 워크플로](.github/workflows/deploy.yml)가 검증·빌드 후
+위 주소로 자동 배포합니다.
 
 ## 검증
 
@@ -66,8 +75,6 @@ node site/test/pyrunner.test.mjs   # 파이썬 실행기 24개 검사 (오프라
 | `scripts/validate.py` | 콘텐츠 검증 |
 | `docs/` | 설계 계획서, 레퍼런스 분석, 검증 리포트 |
 | `CLAUDE.md` | 집필·개발 규칙 |
-
-출판사 교과서·지도서 원본은 저작물이므로 이 저장소에 포함하지 않습니다.
 
 ## 이용 조건
 

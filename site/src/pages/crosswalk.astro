@@ -1,6 +1,7 @@
 ---
 import Textbook from '../layouts/Textbook.astro';
 import { standards, areas, publishers, publishersDoc, crosswalkFor } from '../lib/content.js';
+import { url } from '../lib/url.js';
 ---
 <Textbook title="교과서 대조표" showToc={false}>
   <header class="lesson-head">
@@ -40,7 +41,7 @@ import { standards, areas, publishers, publishersDoc, crosswalkFor } from '../li
               const row = crosswalkFor([s.code]);
               return (
                 <tr>
-                  <th scope="row"><a class="badge" href={`/standards/#${s.code}`}>{s.code}</a></th>
+                  <th scope="row"><a class="badge" href={url(`standards/#${s.code}`)}>{s.code}</a></th>
                   {row.map(({ hits }) => (
                     <td>{hits.length === 0
                       ? <em style="color:var(--c-text-faint)">[확인필요]</em>

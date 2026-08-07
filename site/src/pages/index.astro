@@ -1,6 +1,7 @@
 ---
 import Textbook from '../layouts/Textbook.astro';
 import { lessonsByArea, stats, curriculum } from '../lib/content.js';
+import { url } from '../lib/url.js';
 ---
 <Textbook title="과목 처음" showToc={false}>
   <header class="lesson-head">
@@ -25,7 +26,7 @@ import { lessonsByArea, stats, curriculum } from '../lib/content.js';
       <h2 class="blk-h2">{area.no}. {area.name}</h2>
       <div class="cards">
         {lessons.map((l) => (
-          <a class="card" href={`/lesson/${l.id}/`}>
+          <a class="card" href={url(`lesson/${l.id}/`)}>
             <span class="a-no">{(l.standards ?? []).join(' · ')}</span>
             <h3>{l.title}</h3>
             <p>{l.lead}</p>
