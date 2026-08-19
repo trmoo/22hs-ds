@@ -44,6 +44,7 @@ jobs:
         run: |
           node test/chart.test.mjs
           node test/pyrunner.test.mjs
+          node test/blank.test.mjs
 
       - name: 빌드 (Pages 하위 경로)
         working-directory: site

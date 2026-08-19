@@ -28,6 +28,8 @@ from collections import defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CURRICULUM = os.path.join(ROOT, "content", "curriculum.json")
 LESSON_DIR = os.path.join(ROOT, "content", "lessons")
+# 삽화 SVG 는 본문에 인라인되므로 site/src/figures 에 둔다(public 이 아니다).
+FIGURE_DIR = os.path.join(ROOT, "site", "src", "figures")
 REPORT = os.path.join(ROOT, "docs", "validation-report.md")
 
 # ── 규칙 상수 ────────────────────────────────────────────────────────────────
@@ -37,7 +39,11 @@ LESSON_REQUIRED = ["id", "areaId", "order", "title", "lead",
                    "standards", "periods", "objectives", "keywords", "blocks", "status"]
 
 BLOCK_TYPES = {"prose", "heading", "callout", "term",
-               "table", "chart", "code", "quiz", "figure"}
+               "table", "chart", "code", "quiz", "figure", "widget"}
+
+WIDGET_KINDS = {"classify", "order", "match", "join"}
+BLANK_RE = re.compile(r"\{\{([^{}|]+?)(?:\|\|([^{}]*?))?\}\}")
+BLANK_MIN, BLANK_MAX = 6, 14
 
 CALLOUT_VARIANTS = {"concept", "warn", "tip", "activity"}
 CHART_KINDS = {"scatter", "line", "bar", "hist", "box"}
@@ -78,6 +84,7 @@ class Issue:
 
 
 issues = []
+stats_blank = {}
 markers = []          # [확인필요] 목록
 stats = {}
 
@@ -264,8 +271,64 @@ for fn, L in lessons.items():
                 add("ERROR", BW, "figure.src 누락")
             elif src == MARKER and not b.get("note"):
                 add("WARN", BW, "figure 가 [확인필요]인데 note(필요한 그림 설명) 없음")
+            elif src != MARKER:
+                # 경로만 적고 파일을 안 만들면 화면에 깨진 그림이 남는다.
+                name = os.path.basename(src)
+                if not src.lower().endswith(".svg"):
+                    add("WARN", BW, f"figure.src 가 SVG 가 아니다: {src} (인라인되지 않아 어두운 화면에서 어긋난다)")
+                elif not os.path.isfile(os.path.join(FIGURE_DIR, name)):
+                    add("ERROR", BW, f"figure.src 파일이 없다: site/src/figures/{name}")
             if not b.get("alt"):
                 add("ERROR", BW, "figure.alt 누락 (접근성)")
+
+        elif t == "widget":
+            k = b.get("kind")
+            if k not in WIDGET_KINDS:
+                add("ERROR", BW, f"widget.kind 확인: {k}")
+            if not b.get("title"):
+                add("WARN", BW, "widget.title 권장")
+            if k == "classify":
+                bins = {x.get("id") for x in (b.get("bins") or [])}
+                if len(bins) < 2:
+                    add("ERROR", BW, "classify 는 bins 2개 이상 필요")
+                for it in (b.get("items") or []):
+                    if it.get("bin") not in bins:
+                        add("ERROR", BW, f'classify item "{it.get("text")}" 의 bin 이 bins 에 없음')
+                    if not it.get("explain"):
+                        add("WARN", BW, f'classify item "{it.get("text")}" 에 explain 없음 — 오답 이유를 알려줄 수 없다')
+            elif k == "order":
+                items = b.get("items") or []
+                sh = b.get("shuffled")
+                if len(items) < 3:
+                    add("ERROR", BW, "order 는 items 3개 이상 필요")
+                if sh is None:
+                    add("ERROR", BW, "order.shuffled 누락 — 표시 순서를 데이터로 고정해야 한다")
+                elif sorted(sh) != list(range(len(items))):
+                    add("ERROR", BW, f"order.shuffled 가 items 인덱스 순열이 아님: {sh}")
+            elif k == "match":
+                pairs = b.get("pairs") or []
+                ro = b.get("rightOrder")
+                if len(pairs) < 2:
+                    add("ERROR", BW, "match 는 pairs 2개 이상 필요")
+                if ro is None:
+                    add("ERROR", BW, "match.rightOrder 누락 — 오른쪽 표시 순서를 고정해야 한다")
+                elif sorted(ro) != list(range(len(pairs))):
+                    add("ERROR", BW, f"match.rightOrder 가 pairs 인덱스 순열이 아님: {ro}")
+            elif k == "join":
+                for side in ("left", "right"):
+                    t2 = b.get(side) or {}
+                    if not t2.get("head") or not t2.get("rows"):
+                        add("ERROR", BW, f"join.{side}.head / rows 필수")
+                    elif any(len(r) != len(t2["head"]) for r in t2["rows"]):
+                        add("ERROR", BW, f"join.{side} 행의 열 수가 head 와 다름")
+                key = b.get("key")
+                for side in ("left", "right"):
+                    head = (b.get(side) or {}).get("head") or []
+                    if key and head and key not in head:
+                        add("ERROR", BW, f'join.key "{key}" 가 {side}.head 에 없음')
+                cands = b.get("candidates") or []
+                if key and cands and key not in cands:
+                    add("ERROR", BW, "join.candidates 에 정답 key 가 없음")
 
         elif t == "quiz":
             items = b.get("items") or []
@@ -294,6 +357,26 @@ for fn, L in lessons.items():
                 else:
                     add("ERROR", QW, f"알 수 없는 문항 type: {qt}")
 
+    # 빈칸 — 학생이 직접 채우는 자리가 있는지
+    blank_total = 0
+    for b in blocks:
+        for key in ("md",):
+            if b.get(key):
+                for m in BLANK_RE.finditer(b[key]):
+                    blank_total += 1
+                    ans, hint = m.group(1), m.group(2)
+                    if not ans.strip():
+                        add("ERROR", W, "빈칸의 정답이 비어 있음")
+                    if len(ans) > 40:
+                        add("WARN", W, f"빈칸 정답이 너무 김({len(ans)}자) — 낱말 단위로 비울 것: {ans[:24]}…")
+                    if hint is not None and not hint.strip():
+                        add("WARN", W, f'빈칸 "{ans[:14]}" 의 힌트가 비어 있음')
+    stats_blank[fn] = blank_total
+    if blank_total == 0:
+        add("WARN", W, "본문 빈칸이 없음 — 학생이 채울 자리를 두는 것을 권장(§3-6-1)")
+    elif not (BLANK_MIN <= blank_total <= BLANK_MAX):
+        add("WARN", W, f"빈칸 {blank_total}개 (권장 {BLANK_MIN}~{BLANK_MAX})")
+
     if not (QUIZ_MIN <= quiz_items <= QUIZ_MAX):
         add("WARN", W, f"확인 문제 {quiz_items}문항 (권장 {QUIZ_MIN}~{QUIZ_MAX})")
     if not (TERM_MIN <= counts["term"] <= TERM_MAX):
@@ -306,9 +389,9 @@ for fn, L in lessons.items():
             bl.get("type") == "callout" and bl.get("variant") in ("concept", "tip", "warn"))
 
     for i, b in enumerate(blocks):
-        if b.get("type") in ("chart", "code"):
+        if b.get("type") in ("chart", "code", "widget"):
             look = blocks[i + 1:i + 3]
-            if not any(explains(x) or x.get("type") in ("chart", "code") for x in look):
+            if not any(explains(x) or x.get("type") in ("chart", "code", "widget") for x in look):
                 add("WARN", f"{fn} blocks[{i}]",
                     f'{b.get("type")} 뒤 2블록 안에 결과를 설명하는 prose/callout이 없음')
 
@@ -322,6 +405,7 @@ for fn, L in lessons.items():
         "chart": counts["chart"],
         "code": counts["code"],
         "figure": counts["figure"],
+        "widget": counts["widget"],
         "status": L.get("status"),
     }
 
@@ -376,6 +460,8 @@ A(f"| WARN | {len(Wn)} |")
 A(f"| `[확인필요]` | {len(markers)}건 |")
 A(f"| 총 블록 | {sum(s['blocks'] for s in stats.values())} |")
 A(f"| 총 확인 문제 | {sum(s['quiz'] for s in stats.values())} |")
+A(f"| 총 빈칸 | {sum(stats_blank.values())} |")
+A(f"| 총 조작 위젯 | {sum(s['widget'] for s in stats.values())} |")
 A("")
 
 A("## 1. 성취기준 커버리지")
@@ -395,12 +481,13 @@ A("")
 
 A("## 2. 차시 현황")
 A("")
-A("| 파일 | 제목 | 성취기준 | 블록 | 문제 | 용어 | 차트 | 코드 | 그림 | 상태 |")
-A("|---|---|---|---|---|---|---|---|---|---|")
+A("| 파일 | 제목 | 성취기준 | 블록 | 문제 | 용어 | 차트 | 코드 | 그림 | 위젯 | 빈칸 | 상태 |")
+A("|---|---|---|---|---|---|---|---|---|---|---|---|")
 for fn in sorted(stats):
     s = stats[fn]
     A(f"| `{fn}` | {s['title']} | {', '.join(s['standards'])} | {s['blocks']} | "
-      f"{s['quiz']} | {s['term']} | {s['chart']} | {s['code']} | {s['figure']} | {s['status']} |")
+      f"{s['quiz']} | {s['term']} | {s['chart']} | {s['code']} | {s['figure']} | "
+      f"{s['widget']} | {stats_blank.get(fn, 0)} | {s['status']} |")
 A("")
 
 A("## 3. ERROR — 반드시 고쳐야 함")
