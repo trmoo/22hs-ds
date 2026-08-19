@@ -97,10 +97,14 @@ const { title, currentId = null, showToc = true, toc = [] } = Astro.props;
     import { initTerms } from '../scripts/term.js';
     import { renderAllCharts } from '../scripts/chart.js';
     import { mountAllPyRunners } from '../scripts/pyrunner.js';
+    import { initBlanks } from '../scripts/blanks.js';
+    import { mountAllWidgets } from '../scripts/widget.js';
 
     initApp();
     initQuizzes();
     initTerms();
+    initBlanks();
+    try { mountAllWidgets(); } catch (e) { console.error('[widget] 초기화 실패', e); }
     // 차트·실행기 모듈은 실패해도 본문 읽기를 막지 않아야 한다
     try { renderAllCharts(); } catch (e) { console.error('[chart] 초기화 실패', e); }
     try { mountAllPyRunners(); } catch (e) { console.error('[pyrun] 초기화 실패', e); }

@@ -17,6 +17,8 @@
   --c-primary-soft: #d6f2ee;
   --c-accent: #1d5fd0;
   --c-accent-soft: #dce7fb;
+  /* 삽화에서 "짝이 없음·주의"를 표시하는 색 */
+  --c-warn: #b06a00;
 
   --c-bg: #f7f9fb;
   --c-surface: #ffffff;
@@ -62,6 +64,7 @@
     --c-primary-soft: #123a37;
     --c-accent: #7aa9ff;
     --c-accent-soft: #16233d;
+    --c-warn: #e0a441;
 
     --c-bg: #0f151c;
     --c-surface: #161e27;
@@ -93,7 +96,7 @@
 }
 :root[data-theme="dark"] {
   --c-primary: #4ec9bb; --c-primary-deep: #7fdcd1; --c-primary-soft: #123a37;
-  --c-accent: #7aa9ff; --c-accent-soft: #16233d;
+  --c-accent: #7aa9ff; --c-accent-soft: #16233d; --c-warn: #e0a441;
   --c-bg: #0f151c; --c-surface: #161e27; --c-surface-2: #1c2632;
   --c-text: #e7edf4; --c-text-soft: #a8b4c4; --c-text-faint: #7c8798;
   --c-border: #27323f; --c-border-strong: #3a4756;
@@ -320,6 +323,10 @@ table.tbl tbody tr:hover { background: var(--c-surface-2); }
 /* 그림 */
 figure.fig { margin: 0; }
 figure.fig img { border-radius: var(--radius); border: 1px solid var(--c-border); }
+/* 인라인 SVG 삽화. 문서 안에 직접 들어 있어 --c-* 색 변수를 그대로 따라간다. */
+.fig-svg { border-radius: var(--radius); border: 1px solid var(--c-border);
+  background: var(--c-surface); padding: .5rem; overflow-x: auto; }
+.fig-svg svg { display: block; width: 100%; height: auto; min-width: 420px; }
 figure.fig figcaption, .chart figcaption { font-size: .8rem; color: var(--c-text-faint); margin-top: .5rem; }
 .fig-todo {
   display: grid; place-items: center; gap: .4rem; min-height: 8rem;
@@ -511,9 +518,141 @@ textarea.pyrun-code:focus { background: var(--c-surface-2); outline-offset: -3px
 .tb-footer .flic b { color: var(--c-text-soft); }
 @media (max-width: 860px) { .tb-footer { padding-inline: 1.1rem; } }
 
+/* ---------- 본문 빈칸 ---------- */
+.blank { display: inline-flex; align-items: baseline; gap: .2rem; white-space: nowrap; }
+.blank-in {
+  font: inherit; font-size: .95em; font-weight: 600; text-align: center;
+  width: calc(var(--blank-ch, 8) * 1ch + 1.2rem);
+  min-width: 4.5rem; max-width: 100%;
+  background: var(--c-surface-2); color: var(--c-primary-deep);
+  border: 0; border-bottom: 2px solid var(--c-primary);
+  border-radius: 6px 6px 0 0; padding: .05rem .35rem;
+}
+.blank-in::placeholder { color: var(--c-text-faint); font-weight: 400; }
+.blank.ok .blank-in { background: var(--ok-soft); color: var(--ok); border-bottom-color: var(--ok); }
+.blank.no .blank-in { background: var(--bad-soft); color: var(--bad); border-bottom-color: var(--bad); }
+.blank-mark { font-weight: 800; font-size: .9em; }
+.blank.ok .blank-mark { color: var(--ok); }
+.blank.no .blank-mark { color: var(--bad); }
+.blank-hint {
+  font: inherit; font-size: .72em; font-weight: 600; cursor: pointer;
+  background: transparent; color: var(--c-accent);
+  border: 1px solid var(--c-border); border-radius: 99px; padding: 0 .45em;
+}
+.blank-hint:hover { border-color: var(--c-accent); background: var(--c-accent-soft); }
+.blank-tip {
+  display: block; white-space: normal; flex-basis: 100%;
+  font-size: .8rem; color: var(--c-text-soft);
+  background: var(--c-accent-soft); border-radius: var(--radius-sm);
+  padding: .3rem .55rem; margin-top: .25rem;
+}
+/* 우측 목차의 빈칸 진행 카드. 빈칸이 있는 차시에서만 hidden 이 풀린다. */
+.blank-card {
+  border: 1px solid var(--c-border); border-radius: var(--radius);
+  background: var(--c-surface); padding: .8rem .9rem; margin-bottom: 1rem;
+}
+.blank-card h3 { margin: 0 0 .5rem; font-size: .9rem; }
+.blank-card .bc-note { margin: .55rem 0 0; font-size: .72rem; color: var(--c-text-faint); }
+.blank-reset {
+  margin-top: .6rem; width: 100%; cursor: pointer;
+  font: inherit; font-size: .78rem;
+  color: var(--c-text-soft); background: var(--c-surface-2);
+  border: 1px solid var(--c-border-strong); border-radius: var(--radius-sm);
+  padding: .35rem .5rem;
+}
+.blank-reset:hover { color: var(--c-text); border-color: var(--c-primary); }
+.blank-reset:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+
+#blank-summary {
+  display: inline-block; font-size: .82rem; font-weight: 700;
+  color: var(--c-primary-deep); background: var(--c-primary-soft);
+  border-radius: 99px; padding: .15rem .7rem;
+}
+#blank-summary.done { background: var(--ok-soft); color: var(--ok); }
+
+/* ---------- 조작 위젯 ---------- */
+figure.wgt {
+  margin: 1.35rem 0; border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius); overflow: hidden; background: var(--c-surface);
+}
+.wgt-cap {
+  display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+  padding: .5rem .8rem; background: var(--c-primary-soft);
+  border-bottom: 1px solid var(--c-border);
+  font-size: .85rem; font-weight: 700; color: var(--c-primary-deep);
+}
+.wgt-status { margin-left: auto; font-weight: 600; font-size: .78rem; color: var(--c-text-soft); }
+.wgt-body { padding: .8rem .9rem; }
+.wgt-prompt { margin: 0 0 .6rem; font-size: .88rem; color: var(--c-text-soft); }
+.wgt-pool { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .7rem; }
+.wgt-chip {
+  font: inherit; font-size: .86rem; cursor: pointer;
+  background: var(--c-surface-2); color: var(--c-text);
+  border: 1.5px solid var(--c-border); border-radius: 99px; padding: .3rem .8rem;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.wgt-chip.wide { border-radius: var(--radius-sm); text-align: left; width: 100%; }
+.wgt-chip:hover:not(:disabled) { border-color: var(--c-primary); background: var(--c-primary-soft); }
+.wgt-chip.sel { border-color: var(--c-primary); background: var(--c-primary-soft); font-weight: 700; }
+.wgt-chip.used { opacity: .45; cursor: default; }
+.wgt-chip.used.ok { border-color: var(--ok); background: var(--ok-soft); opacity: .7; }
+.wgt-chip.shake { animation: wgtShake .35s; border-color: var(--bad); background: var(--bad-soft); }
+@keyframes wgtShake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.wgt-bins { display: grid; grid-template-columns: repeat(var(--bins, 2), minmax(0, 1fr)); gap: .5rem; }
+.wgt-bin {
+  font: inherit; text-align: left; cursor: pointer; min-height: 5rem;
+  background: var(--c-surface); border: 2px dashed var(--c-border-strong);
+  border-radius: var(--radius-sm); padding: .5rem .6rem;
+  display: flex; flex-direction: column; gap: .35rem;
+}
+.wgt-bin:hover { border-color: var(--c-primary); background: var(--c-primary-soft); }
+.wgt-bin-h { font-size: .84rem; font-weight: 700; color: var(--c-primary-deep); }
+.wgt-placed { display: flex; flex-wrap: wrap; gap: .25rem; }
+.wgt-placed span {
+  font-size: .78rem; font-weight: 600; border-radius: 99px; padding: .1rem .5rem;
+}
+.wgt-placed .right { background: var(--ok-soft); color: var(--ok); }
+.wgt-placed .wrong { background: var(--bad-soft); color: var(--bad); text-decoration: line-through; }
+.wgt-slots { margin: 0 0 .7rem; padding-left: 1.3rem; display: grid; gap: .3rem; }
+.wgt-slot { font-size: .88rem; font-weight: 600; color: var(--c-primary-deep); }
+.wgt-match { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.wgt-col { display: grid; gap: .35rem; align-content: start; }
+.wgt-fb { display: none; margin-top: .6rem; padding: .45rem .7rem; border-radius: var(--radius-sm); font-size: .85rem; }
+.wgt-fb.on { display: block; }
+.wgt-fb.good { background: var(--ok-soft); color: var(--ok); }
+.wgt-fb.bad { background: var(--bad-soft); color: var(--bad); }
+.wgt-error { color: var(--bad); font-size: .85rem; }
+.wgt-two { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.wgt-tbl { overflow-x: auto; }
+.wgt-tbl-h { margin: 0 0 .25rem; font-size: .8rem; font-weight: 700; color: var(--c-text-soft); }
+.wgt-tbl table, .wgt-out table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.wgt-tbl th, .wgt-tbl td, .wgt-out th, .wgt-out td {
+  border: 1px solid var(--c-border); padding: .2rem .4rem; text-align: left; white-space: nowrap;
+}
+.wgt-tbl th, .wgt-out th { background: var(--c-surface-2); font-weight: 700; }
+.wgt-tbl th.key, .wgt-out th.key { background: var(--warn-soft); color: var(--warn); }
+.wgt-tbl td.key { background: var(--warn-soft); color: var(--warn); font-weight: 700; }
+.wgt-keys { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .6rem; }
+.wgt-out { margin-top: .7rem; }
+.wgt-out tr.unmatched td { background: var(--bad-soft); color: var(--bad); }
+.wgt-note { margin: .4rem 0 0; font-size: .8rem; color: var(--c-text-faint); }
+@media (max-width: 640px) {
+  .wgt-bins { grid-template-columns: 1fr; }
+  .wgt-match, .wgt-two { grid-template-columns: 1fr; }
+}
+
 /* ---------- 인쇄 ---------- */
 @media print {
   .hdr, .pane-tree, .pane-toc, .navfoot, .progress-wrap, .skip-link, .pyrun-bar { display: none !important; }
+  /* 빈칸은 밑줄만 남겨 손으로 쓸 수 있게 한다 */
+  .blank-in { border-bottom: 1px solid #333; background: transparent; }
+  .blank-hint, .blank-mark, #blank-summary { display: none !important; }
+  .wgt-status, .wgt-fb { display: none !important; }
+  /* 빈칸 진행 카드는 화면 전용이다. 종이에는 채울 자리만 남는다. */
+  .blank-card { display: none !important; }
+  /* 삽화는 잘리지 않고 한 장에 다 들어가야 한다. */
+  .fig-svg { overflow: visible; border: none; padding: 0; background: none; }
+  .fig-svg svg { min-width: 0; }
   /* 저작권 표시는 인쇄물에도 남긴다 */
   .tb-footer { border-top: 1px solid #999; padding: .6rem 0 0; font-size: 9pt; }
   .tb-footer .fwrap { display: none; }

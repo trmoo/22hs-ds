@@ -71,6 +71,13 @@ const cw = crosswalkFor(lesson.standards ?? []);
   </nav>
 
   <Fragment slot="aside">
+    <div class="blank-card" id="blank-card" hidden>
+      <h3>빈칸 채우기</h3>
+      <p id="blank-summary"></p>
+      <button type="button" id="blank-reset" class="blank-reset">모두 지우고 다시 풀기</button>
+      <p class="bc-note">입력한 답은 이 컴퓨터에만 저장된다. 채점 결과는 제출되지 않는다.</p>
+    </div>
+
     <div class="std-card">
       <h3>이 차시의 성취기준</h3>
       {stds.map((s) => (
