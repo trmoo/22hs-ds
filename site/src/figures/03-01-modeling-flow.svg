@@ -1,0 +1,88 @@
+<svg viewBox="0 0 760 320" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>데이터에서 모델을 만들고 예측에 쓰는 흐름</title>
+  <desc>왼쪽에 표 형태의 데이터가 있다. 데이터에서 가운데의 규칙 상자로 가는 화살표에 모델링이라고 적혀 있다. 오른쪽에는 새 입력과 예측값이 있고, 규칙에서 예측값으로 가는 화살표에 예측이라고 적혀 있다. 예측값과 실제값을 잇는 점선에는 오차라고 표시되어 있다. 오차를 줄이도록 규칙을 고치는 화살표가 규칙 상자로 되돌아간다.</desc>
+  <defs>
+    <marker id="mdl-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-primary, #0d7d72)"/>
+    </marker>
+    <marker id="mdl-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-warn, #b06a00)"/>
+    </marker>
+  </defs>
+
+  <!-- 왼쪽: 데이터 -->
+  <text x="16" y="24" font-size="13" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">가진 데이터</text>
+  <g stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1">
+    <rect x="16" y="34" width="188" height="132" rx="8"
+          fill="var(--c-surface, #ffffff)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <rect x="16" y="34" width="188" height="22" fill="var(--c-primary-soft, #d6f2ee)" stroke="none"/>
+    <rect x="16" y="48" width="188" height="8" fill="var(--c-primary-soft, #d6f2ee)" stroke="none"/>
+    <line x1="16" y1="56" x2="204" y2="56" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <line x1="79" y1="34" x2="79" y2="166"/>
+    <line x1="142" y1="34" x2="142" y2="166"/>
+    <line x1="16" y1="83" x2="204" y2="83"/>
+    <line x1="16" y1="110" x2="204" y2="110"/>
+    <line x1="16" y1="138" x2="204" y2="138"/>
+  </g>
+  <g font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--c-primary-deep, #0a5f57)">
+    <text x="47" y="50">입력 1</text><text x="110" y="50">입력 2</text><text x="173" y="50">실제값</text>
+  </g>
+  <g font-size="12" text-anchor="middle" fill="var(--c-text, #16202b)">
+    <text x="47" y="74">2</text><text x="110" y="74">10</text><text x="173" y="74">24</text>
+    <text x="47" y="101">3</text><text x="110" y="101">12</text><text x="173" y="101">31</text>
+    <text x="47" y="129">4</text><text x="110" y="129">11</text><text x="173" y="129">35</text>
+    <text x="47" y="157">5</text><text x="110" y="157">14</text><text x="173" y="157">44</text>
+  </g>
+  <text x="16" y="186" font-size="11.5" fill="var(--c-text-soft, #4a5768)">값은 설명을 위한 가상의 값이다</text>
+
+  <!-- 모델링 화살표 -->
+  <path d="M212,96 L286,96" fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2.5" marker-end="url(#mdl-a)"/>
+  <text x="249" y="88" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">모델링</text>
+  <text x="249" y="116" text-anchor="middle" font-size="11" fill="var(--c-text-soft, #4a5768)">규칙을 찾는다</text>
+
+  <!-- 가운데: 규칙(모델) -->
+  <g>
+    <rect x="292" y="56" width="172" height="82" rx="12"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="2"/>
+    <text x="378" y="80" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">규칙 (모델)</text>
+    <text x="378" y="104" text-anchor="middle" font-size="12.5" fill="var(--c-text, #16202b)">입력을 넣으면</text>
+    <text x="378" y="122" text-anchor="middle" font-size="12.5" fill="var(--c-text, #16202b)">값 하나를 내놓는다</text>
+  </g>
+
+  <!-- 예측 화살표 -->
+  <path d="M472,96 L546,96" fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2.5" marker-end="url(#mdl-a)"/>
+  <text x="509" y="88" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">예측</text>
+
+  <!-- 오른쪽: 새 입력 → 예측값 / 실제값 -->
+  <g>
+    <rect x="552" y="26" width="192" height="42" rx="8"
+          fill="var(--c-surface, #ffffff)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.5"/>
+    <text x="648" y="52" text-anchor="middle" font-size="12.5" fill="var(--c-text, #16202b)">새 입력 (6, 15)</text>
+  </g>
+  <g>
+    <rect x="552" y="76" width="192" height="42" rx="8"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.5"/>
+    <text x="648" y="102" text-anchor="middle" font-size="12.5" fill="var(--c-text, #16202b)">예측값 50</text>
+  </g>
+  <g>
+    <rect x="552" y="148" width="192" height="42" rx="8"
+          fill="var(--c-surface-2, #f1f4f8)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+    <text x="648" y="174" text-anchor="middle" font-size="12.5" fill="var(--c-text, #16202b)">나중에 확인한 실제값 46</text>
+  </g>
+  <!-- 오차 -->
+  <path d="M648,120 L648,146" fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="656" y="139" font-size="12" font-weight="700" fill="var(--c-warn, #b06a00)">오차 4</text>
+
+  <!-- 규칙 고치기 되돌림 -->
+  <path d="M552,169 L500,169 C486,169 486,150 486,144 L472,144"
+        fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.8"
+        stroke-dasharray="6 4" marker-end="url(#mdl-w)"/>
+  <text x="378" y="164" text-anchor="middle" font-size="11.5" fill="var(--c-warn, #b06a00)">오차를 줄이도록 규칙을 고친다</text>
+
+  <!-- 아래 결론 -->
+  <line x1="16" y1="230" x2="744" y2="230" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="256" font-size="13" fill="var(--c-text, #16202b)">
+    <tspan x="16" dy="0">모델은 데이터에서 찾아낸 규칙이고, 그 규칙을 새 입력에 적용한 결과가 예측값이다.</tspan>
+    <tspan x="16" dy="21">예측값과 실제값의 차이가 오차이고, 모델을 고치는 기준이 바로 이 오차다.</tspan>
+  </text>
+</svg>

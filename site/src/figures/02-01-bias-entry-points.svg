@@ -1,0 +1,77 @@
+<svg viewBox="0 0 760 300" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>데이터 수집 절차의 세 단계와 각 단계에서 들어오는 편향</title>
+  <desc>왼쪽에서 오른쪽으로 조사 대상 정하기, 표본 뽑기, 응답 받기 세 단계가 이어진다. 첫 단계에서는 대상을 너무 좁게 잡아 편향이 들어온다. 둘째 단계에서는 뽑는 방법이 한쪽으로 쏠려 편향이 들어온다. 셋째 단계에서는 응답할 뜻이 있는 사람만 남아 편향이 들어온다. 오른쪽 끝의 분석 단계는 흐리게 그려져 있고, 편향은 분석 단계에서 되돌리기 어렵다는 설명이 붙어 있다.</desc>
+  <defs>
+    <marker id="bias-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-primary, #0d7d72)"/>
+    </marker>
+    <marker id="bias-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-warn, #b06a00)"/>
+    </marker>
+  </defs>
+
+  <!-- 단계 사이 화살표 -->
+  <g fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#bias-a)">
+    <path d="M186,58 L212,58"/>
+    <path d="M376,58 L402,58"/>
+    <path d="M566,58 L592,58"/>
+  </g>
+
+  <!-- 1단계 -->
+  <g>
+    <rect x="16" y="30" width="170" height="56" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="101" y="52" text-anchor="middle" font-size="11.5" fill="var(--c-primary-deep, #0a5f57)">1단계</text>
+    <text x="101" y="72" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">조사 대상 정하기</text>
+  </g>
+  <path d="M101,90 L101,116" fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.8" marker-end="url(#bias-w)"/>
+  <rect x="16" y="120" width="170" height="50" rx="8"
+        fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <text x="101" y="141" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">대상을 너무 좁게</text>
+  <text x="101" y="158" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">잡음</text>
+
+  <!-- 2단계 -->
+  <g>
+    <rect x="212" y="30" width="164" height="56" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="294" y="52" text-anchor="middle" font-size="11.5" fill="var(--c-primary-deep, #0a5f57)">2단계</text>
+    <text x="294" y="72" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">표본 뽑기</text>
+  </g>
+  <path d="M294,90 L294,116" fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.8" marker-end="url(#bias-w)"/>
+  <rect x="212" y="120" width="164" height="50" rx="8"
+        fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <text x="294" y="141" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">뽑는 방법이</text>
+  <text x="294" y="158" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">한쪽으로 쏠림</text>
+
+  <!-- 3단계 -->
+  <g>
+    <rect x="402" y="30" width="164" height="56" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="484" y="52" text-anchor="middle" font-size="11.5" fill="var(--c-primary-deep, #0a5f57)">3단계</text>
+    <text x="484" y="72" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">응답 받기</text>
+  </g>
+  <path d="M484,90 L484,116" fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.8" marker-end="url(#bias-w)"/>
+  <rect x="402" y="120" width="164" height="50" rx="8"
+        fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <text x="484" y="141" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">응답할 뜻이 있는</text>
+  <text x="484" y="158" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">사람만 남음</text>
+
+  <!-- 분석 (흐리게) -->
+  <g opacity="0.42">
+    <rect x="592" y="30" width="152" height="56" rx="10"
+          fill="var(--c-surface-2, #f1f4f8)" stroke="var(--c-border-strong, #c3ccd8)"
+          stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="668" y="64" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">분석</text>
+  </g>
+  <text x="668" y="112" text-anchor="middle" font-size="12" fill="var(--c-warn, #b06a00)">
+    <tspan x="668" dy="0">여기서는</tspan>
+    <tspan x="668" dy="17">되돌리기 어렵다</tspan>
+  </text>
+
+  <!-- 아래 결론 -->
+  <line x1="16" y1="212" x2="744" y2="212" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="238" font-size="13" fill="var(--c-text, #16202b)">
+    <tspan x="16" dy="0">편향은 분석에서 생기는 것이 아니라 모으는 세 지점에서 이미 들어온다.</tspan>
+    <tspan x="16" dy="21">그래서 계산을 잘하는 것보다 모으는 절차를 먼저 점검해야 한다.</tspan>
+  </text>
+</svg>
