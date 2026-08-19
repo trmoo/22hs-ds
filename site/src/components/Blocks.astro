@@ -10,6 +10,8 @@
  * const 같은 문(statement)을 쓸 수 없어 컴파일이 실패한다.
  */
 import { markdown, inline, escapeHtml, linkTerms } from '../lib/md.js';
+import { maskBlanks, unmaskBlanks } from '../lib/blank.js';
+import { url } from '../lib/url.js';
 
 const { blocks = [] } = Astro.props;
 
@@ -22,7 +24,44 @@ const terms = blocks
   .filter((b) => b.type === 'term' && b.term && b.desc)
   .map((b) => ({ term: b.term, desc: b.desc }));
 
-const proseHtml = (src) => linkTerms(markdown(src), terms);
+/**
+ * 순서: 빈칸 감추기 → 마크다운 → 용어 툴팁 → 빈칸 되돌리기.
+ *
+ * 용어 툴팁을 먼저 붙이면 정답이 용어와 같은 낱말일 때 정답 자리에 <button> 이
+ * 끼어들어 학생이 무엇을 써도 맞지 않는다. 그래서 빈칸을 토큰으로 감춘 뒤
+ * 링크를 붙이고 마지막에 되돌린다.
+ */
+const blankSeed = { n: 0 };
+const proseHtml = (src) => {
+  const { text, items } = maskBlanks(src);
+  return unmaskBlanks(linkTerms(markdown(text), terms), items, blankSeed);
+};
+
+/**
+ * SVG 삽화는 <img>가 아니라 문서 안에 직접 펼쳐 넣는다.
+ * <img src="...svg"> 로 넣으면 SVG 가 독립 문서가 되어 본문의 색 변수(--c-*)를
+ * 상속받지 못한다. 그러면 어두운 화면에서 그림만 흰 판으로 남는다.
+ * 접근성 이름은 SVG 안의 title·desc 가 제공한다. 겉을 role="img" 로 덮으면 desc 가 가려진다.
+ *
+ * node:fs 로 직접 읽지 않고 import.meta.glob 을 쓴다. 컴포넌트가 번들되면
+ * import.meta.url 이 dist 안을 가리켜 상대 경로가 어긋난다.
+ */
+const SVG_RAW = import.meta.glob('../figures/*.svg', { query: '?raw', import: 'default', eager: true });
+const SVG_BY_NAME = Object.fromEntries(
+  Object.entries(SVG_RAW).map(([k, v]) => [k.slice(k.lastIndexOf('/') + 1), v]),
+);
+
+function inlineSvg(src) {
+  const name = String(src ?? '');
+  if (!name.toLowerCase().endsWith('.svg')) return '';
+  const raw = SVG_BY_NAME[name.slice(name.lastIndexOf('/') + 1)];
+  if (!raw) {
+    console.warn(`[figure] src/figures 에 SVG 가 없다: ${src} — <img> 로 대체한다.`);
+    return '';
+  }
+  // XML 선언과 DOCTYPE 은 HTML 안에서 쓸 수 없다.
+  return raw.replace(/<\?xml[^>]*\?>/g, '').replace(/<!DOCTYPE[^>]*>/gi, '').trim();
+}
 
 /** 템플릿이 분기 없이 그릴 수 있도록 필요한 값을 모두 미리 만들어 둔다. */
 const items = blocks.map((b, i) => {
@@ -48,7 +87,7 @@ const items = blocks.map((b, i) => {
     figMissing: t === 'figure' ? !b.src || b.src === NEEDS_CHECK : false,
     figNote: b.note ?? b.alt ?? '준비할 그림 설명이 없다.',
     // chart / code
-    json: t === 'chart' || t === 'code' ? JSON.stringify(b) : '',
+    json: t === 'chart' || t === 'code' || t === 'widget' ? JSON.stringify(b) : '',
     // quiz
     quizItems: (b.items ?? []).map((q, qi) => ({
       q,
@@ -67,7 +106,9 @@ const items = blocks.map((b, i) => {
     isHead3: t === 'heading' && b.level === 3,
     figTodo: t === 'figure' && (!b.src || b.src === NEEDS_CHECK),
     figShow: t === 'figure' && !(!b.src || b.src === NEEDS_CHECK),
-    known: ['heading','prose','callout','term','table','chart','code','figure','quiz'].includes(t),
+    figSvg: t === 'figure' && b.src && b.src !== NEEDS_CHECK ? inlineSvg(b.src) : '',
+    figSrc: t === 'figure' && b.src && b.src !== NEEDS_CHECK ? url(b.src) : '',
+    known: ['heading','prose','callout','term','table','chart','code','figure','quiz','widget'].includes(t),
     typeLabel: escapeHtml(t),
   };
 });
@@ -114,6 +155,8 @@ const items = blocks.map((b, i) => {
 
     {it.t === 'chart' && <div class="blk chart" data-chart={it.json} />}
 
+    {it.t === 'widget' && <div class="blk widget-mount" data-widget={it.json} />}
+
     {it.t === 'code' && (
       <div class="blk pyrun-mount" data-pycode={it.json}>
         <noscript>
@@ -135,9 +178,15 @@ const items = blocks.map((b, i) => {
         {it.b.caption && <figcaption set:html={it.captionHtml} />}
       </figure>
     )}
-    {it.figShow && (
+    {it.figShow && it.figSvg && (
       <figure class="blk fig">
-        <img src={it.b.src} alt={it.b.alt ?? ''} width={it.b.w} height={it.b.h} loading="lazy" decoding="async" />
+        <div class="fig-svg" set:html={it.figSvg} />
+        {it.b.caption && <figcaption set:html={it.captionHtml} />}
+      </figure>
+    )}
+    {it.figShow && !it.figSvg && (
+      <figure class="blk fig">
+        <img src={it.figSrc} alt={it.b.alt ?? ''} width={it.b.w} height={it.b.h} loading="lazy" decoding="async" />
         {it.b.caption && <figcaption set:html={it.captionHtml} />}
       </figure>
     )}
