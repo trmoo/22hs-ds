@@ -1,0 +1,90 @@
+<svg viewBox="0 0 760 420" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>한 장으로 정리한 탐색 결과 요약판</title>
+  <desc>종이 한 장 형태의 요약판이 네 칸으로 나뉘어 있다. 왼쪽 위 칸에는 데이터의 형태로 행 수, 열 수, 기간을 적는다. 왼쪽 아래 칸에는 각 열의 최솟값과 최댓값을 적는다. 오른쪽 위 칸에는 월별 막대그래프를 작게 그린다. 오른쪽 아래 칸에는 발견한 사실 세 줄과 다음에 물을 질문 세 줄을 적는다. 이 요약판이 이 차시의 결과물이다.</desc>
+
+  <!-- 종이 -->
+  <rect x="16" y="14" width="728" height="316" rx="6"
+        fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+  <rect x="16" y="14" width="728" height="34" rx="6" fill="var(--c-primary-soft, #d6f2ee)" stroke="none"/>
+  <rect x="16" y="40" width="728" height="8" fill="var(--c-primary-soft, #d6f2ee)" stroke="none"/>
+  <line x1="16" y1="48" x2="744" y2="48" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+  <text x="32" y="38" font-size="13.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">탐색 결과 요약판</text>
+  <text x="728" y="38" text-anchor="end" font-size="11" fill="var(--c-text-soft, #4a5768)">주제 · 작성자 · 날짜</text>
+
+  <!-- 칸 구분선 -->
+  <line x1="380" y1="48" x2="380" y2="330" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <line x1="16" y1="190" x2="744" y2="190" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+
+  <!-- 왼쪽 위: 데이터 형태 -->
+  <text x="34" y="72" font-size="12" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">① 데이터 형태</text>
+  <g font-size="12" fill="var(--c-text, #16202b)">
+    <text x="34" y="98">행 수</text><text x="140" y="98" fill="var(--c-text-soft, #4a5768)">184</text>
+    <text x="34" y="122">열 수</text><text x="140" y="122" fill="var(--c-text-soft, #4a5768)">6</text>
+    <text x="34" y="146">기간</text><text x="140" y="146" fill="var(--c-text-soft, #4a5768)">3월 ~ 8월</text>
+    <text x="34" y="170">빠진 값</text><text x="140" y="170" fill="var(--c-text-soft, #4a5768)">판매량 열 7칸</text>
+  </g>
+  <g stroke="var(--c-border, #dde4ec)" stroke-width="1">
+    <line x1="130" y1="104" x2="360" y2="104"/><line x1="130" y1="128" x2="360" y2="128"/>
+    <line x1="130" y1="152" x2="360" y2="152"/><line x1="130" y1="176" x2="360" y2="176"/>
+  </g>
+
+  <!-- 왼쪽 아래: 열별 최솟값·최댓값 -->
+  <text x="34" y="214" font-size="12" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">③ 열별 최솟값 · 최댓값</text>
+  <g stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1">
+    <rect x="34" y="224" width="326" height="88" fill="none"/>
+    <line x1="34" y1="246" x2="360" y2="246"/>
+    <line x1="34" y1="268" x2="360" y2="268"/>
+    <line x1="34" y1="290" x2="360" y2="290"/>
+    <line x1="196" y1="224" x2="196" y2="312"/>
+    <line x1="278" y1="224" x2="278" y2="312"/>
+  </g>
+  <g font-size="11" fill="var(--c-primary-deep, #0a5f57)" font-weight="700">
+    <text x="42" y="239">열 이름</text><text x="204" y="239">최솟값</text><text x="286" y="239">최댓값</text>
+  </g>
+  <g font-size="11" fill="var(--c-text, #16202b)">
+    <text x="42" y="261">판매량</text><text x="204" y="261">0</text><text x="286" y="261">148</text>
+    <text x="42" y="283">기온</text><text x="204" y="283">2</text><text x="286" y="283">34</text>
+    <text x="42" y="305">요일</text><text x="204" y="305">월</text><text x="286" y="305">금</text>
+  </g>
+
+  <!-- 오른쪽 위: 월별 막대그래프 축소판 -->
+  <text x="398" y="72" font-size="12" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">② 월별 막대그래프</text>
+  <g stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.2" fill="none">
+    <line x1="416" y1="84" x2="416" y2="164"/>
+    <line x1="416" y1="164" x2="726" y2="164"/>
+  </g>
+  <g fill="var(--c-primary, #0d7d72)">
+    <rect x="432" y="126" width="34" height="38"/>
+    <rect x="480" y="112" width="34" height="52"/>
+    <rect x="528" y="98" width="34" height="66"/>
+    <rect x="576" y="104" width="34" height="60"/>
+    <rect x="624" y="118" width="34" height="46"/>
+    <rect x="672" y="132" width="34" height="32"/>
+  </g>
+  <g font-size="10.5" fill="var(--c-text-soft, #4a5768)" text-anchor="middle">
+    <text x="449" y="178">3월</text><text x="497" y="178">4월</text><text x="545" y="178">5월</text>
+    <text x="593" y="178">6월</text><text x="641" y="178">7월</text><text x="689" y="178">8월</text>
+  </g>
+  <text x="398" y="98" font-size="10" fill="var(--c-text-faint, #7c8798)">값은 예시다</text>
+
+  <!-- 오른쪽 아래: 발견한 사실 / 다음 질문 -->
+  <text x="398" y="214" font-size="12" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">④ 발견한 사실 3줄</text>
+  <g stroke="var(--c-border, #dde4ec)" stroke-width="1">
+    <line x1="398" y1="230" x2="726" y2="230"/>
+    <line x1="398" y1="248" x2="726" y2="248"/>
+    <line x1="398" y1="266" x2="726" y2="266"/>
+  </g>
+  <text x="398" y="288" font-size="12" font-weight="700" fill="var(--c-accent, #1d5fd0)">⑤ 다음에 물을 질문 3줄</text>
+  <g stroke="var(--c-border, #dde4ec)" stroke-width="1">
+    <line x1="398" y1="298" x2="726" y2="298"/>
+    <line x1="398" y1="312" x2="726" y2="312"/>
+    <line x1="398" y1="326" x2="726" y2="326"/>
+  </g>
+
+  <!-- 아래 결론 -->
+  <line x1="16" y1="352" x2="744" y2="352" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="378" font-size="13" fill="var(--c-text, #16202b)">
+    <tspan x="16" dy="0">탐색은 그래프를 많이 그리는 일이 아니라, 다음에 무엇을 물을지 정하는 일이다.</tspan>
+    <tspan x="16" dy="21">그래서 이 한 장에 형태와 범위, 눈에 띈 사실, 이어질 질문을 함께 담는다.</tspan>
+  </text>
+</svg>

@@ -1,0 +1,105 @@
+<svg viewBox="0 0 760 430" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>막힘을 좁혀 가는 다섯 단계 순서도</title>
+  <desc>위에서 아래로 증상 기록, 범위 좁히기, 최소 재현, 하나만 바꾸기, 기록의 다섯 단계가 이어진다. 범위 좁히기 단계에서는 데이터, 전처리, 분석, 해석 네 갈래로 나누어 어디서 막혔는지 확인한다. 하나만 바꾸기에서 해결되지 않으면 최소 재현 단계로 돌아간다. 20분이 지나도 풀리지 않으면 모둠에 공유하는 갈래로 넘어간다.</desc>
+  <defs>
+    <marker id="stk-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-primary, #0d7d72)"/>
+    </marker>
+    <marker id="stk-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-warn, #b06a00)"/>
+    </marker>
+    <marker id="stk-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-accent, #1d5fd0)"/>
+    </marker>
+  </defs>
+
+  <!-- 세로 화살표 -->
+  <g fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#stk-a)">
+    <path d="M144,58 L144,80"/>
+    <path d="M144,140 L144,162"/>
+    <path d="M144,222 L144,244"/>
+    <path d="M144,304 L144,326"/>
+  </g>
+
+  <!-- 1 증상 기록 -->
+  <g>
+    <rect x="16" y="14" width="256" height="44" rx="9"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.6"/>
+    <text x="36" y="41" font-size="11" fill="var(--c-primary-deep, #0a5f57)">1</text>
+    <text x="152" y="41" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-text, #16202b)">증상 기록</text>
+  </g>
+  <text x="288" y="34" font-size="11.5" fill="var(--c-text-soft, #4a5768)">무엇을 했을 때 무엇이 나왔는지</text>
+  <text x="288" y="50" font-size="11.5" fill="var(--c-text-soft, #4a5768)">그대로 적는다</text>
+
+  <!-- 2 범위 좁히기 -->
+  <g>
+    <rect x="16" y="96" width="256" height="44" rx="9"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.6"/>
+    <text x="36" y="123" font-size="11" fill="var(--c-primary-deep, #0a5f57)">2</text>
+    <text x="152" y="123" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-text, #16202b)">범위 좁히기</text>
+  </g>
+  <!-- 네 갈래 -->
+  <path d="M278,118 L306,118" fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="1.8" marker-end="url(#stk-a)"/>
+  <g>
+    <rect x="312" y="98" width="98" height="40" rx="7" fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.2"/>
+    <text x="361" y="123" text-anchor="middle" font-size="12" fill="var(--c-text, #16202b)">데이터</text>
+    <rect x="422" y="98" width="98" height="40" rx="7" fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.2"/>
+    <text x="471" y="123" text-anchor="middle" font-size="12" fill="var(--c-text, #16202b)">전처리</text>
+    <rect x="532" y="98" width="98" height="40" rx="7" fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.2"/>
+    <text x="581" y="123" text-anchor="middle" font-size="12" fill="var(--c-text, #16202b)">분석</text>
+    <rect x="642" y="98" width="98" height="40" rx="7" fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.2"/>
+    <text x="691" y="123" text-anchor="middle" font-size="12" fill="var(--c-text, #16202b)">해석</text>
+  </g>
+  <text x="312" y="158" font-size="11" fill="var(--c-text-soft, #4a5768)">네 갈래 가운데 어디서 막혔는지 하나로 좁힌다</text>
+
+  <!-- 3 최소 재현 -->
+  <g>
+    <rect x="16" y="178" width="256" height="44" rx="9"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.6"/>
+    <text x="36" y="205" font-size="11" fill="var(--c-primary-deep, #0a5f57)">3</text>
+    <text x="152" y="205" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-text, #16202b)">최소 재현</text>
+  </g>
+  <text x="288" y="198" font-size="11.5" fill="var(--c-text-soft, #4a5768)">같은 문제가 나오는 가장 작은</text>
+  <text x="288" y="214" font-size="11.5" fill="var(--c-text-soft, #4a5768)">코드와 데이터만 남긴다</text>
+
+  <!-- 4 하나만 바꾸기 -->
+  <g>
+    <rect x="16" y="260" width="256" height="44" rx="9"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.6"/>
+    <text x="36" y="287" font-size="11" fill="var(--c-primary-deep, #0a5f57)">4</text>
+    <text x="152" y="287" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-text, #16202b)">하나만 바꾸기</text>
+  </g>
+  <text x="288" y="280" font-size="11.5" fill="var(--c-text-soft, #4a5768)">두 곳을 함께 바꾸면 무엇이</text>
+  <text x="288" y="296" font-size="11.5" fill="var(--c-text-soft, #4a5768)">효과를 냈는지 알 수 없다</text>
+
+  <!-- 해결 안 되면 3으로 되돌림 -->
+  <path d="M16,282 C4,282 4,200 16,200"
+        fill="none" stroke="var(--c-warn, #b06a00)" stroke-width="1.8"
+        stroke-dasharray="6 4" marker-end="url(#stk-w)"/>
+  <text x="13" y="245" font-size="10.5" fill="var(--c-warn, #b06a00)" transform="rotate(-90 13 245)" text-anchor="middle">안 되면 다시</text>
+
+  <!-- 20분 갈래 -->
+  <path d="M278,282 L306,282" fill="none" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8"
+        stroke-dasharray="5 3" marker-end="url(#stk-b)"/>
+  <g>
+    <rect x="452" y="240" width="288" height="52" rx="9"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.6"/>
+    <text x="596" y="262" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--c-text, #16202b)">20분이 지나도 안 풀리면</text>
+    <text x="596" y="281" text-anchor="middle" font-size="12.5" fill="var(--c-text, #16202b)">기록한 증상과 함께 모둠에 공유한다</text>
+  </g>
+  <path d="M312,282 L446,282" fill="none" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8" stroke-dasharray="5 3" marker-end="url(#stk-b)"/>
+
+  <!-- 5 기록 -->
+  <g>
+    <rect x="16" y="342" width="256" height="44" rx="9"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8"/>
+    <text x="36" y="369" font-size="11" fill="var(--c-accent, #1d5fd0)">5</text>
+    <text x="152" y="369" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-text, #16202b)">기록</text>
+  </g>
+  <text x="288" y="362" font-size="11.5" fill="var(--c-text-soft, #4a5768)">무엇이 원인이었고 무엇으로 고쳤는지 남긴다.</text>
+  <text x="288" y="378" font-size="11.5" fill="var(--c-text-soft, #4a5768)">다음에 같은 막힘을 만나면 이 기록부터 본다.</text>
+
+  <!-- 아래 결론 -->
+  <line x1="16" y1="404" x2="744" y2="404" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="424" font-size="12.5" fill="var(--c-text, #16202b)">막혔을 때 필요한 것은 더 오래 들여다보는 일이 아니라 범위를 좁히는 순서다.</text>
+</svg>

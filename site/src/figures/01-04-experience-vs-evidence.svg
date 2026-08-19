@@ -1,0 +1,89 @@
+<svg viewBox="0 0 760 340" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>경험을 근거로 한 판단과 기록을 근거로 한 판단의 비교</title>
+  <desc>위쪽은 경험을 근거로 한 판단이다. 사람이 겪은 일에서 곧바로 결정으로 이어진다. 근거가 한 사람의 기억 안에 있어 다른 사람이 확인하거나 되짚어 보기 어렵다. 아래쪽은 기록을 근거로 한 판단이다. 측정한 값이 쌓이고, 값끼리 비교하는 단계를 거친 뒤 결정으로 이어진다. 근거가 남아 있어 다른 사람도 같은 값으로 확인할 수 있고 결정을 되짚어 볼 수 있다.</desc>
+  <defs>
+    <marker id="evd-a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-text-soft, #4a5768)"/>
+    </marker>
+    <marker id="evd-a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-primary, #0d7d72)"/>
+    </marker>
+  </defs>
+
+  <!-- 위: 경험을 근거로 한 판단 -->
+  <text x="16" y="24" font-size="14.5" font-weight="700" fill="var(--c-text-soft, #4a5768)">경험을 근거로 한 판단</text>
+
+  <g>
+    <rect x="16" y="38" width="150" height="62" rx="10"
+          fill="var(--c-surface-2, #f1f4f8)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+    <circle cx="52" cy="62" r="9" fill="none" stroke="var(--c-text-soft, #4a5768)" stroke-width="1.5"/>
+    <path d="M39,86 C39,74 65,74 65,86" fill="none" stroke="var(--c-text-soft, #4a5768)" stroke-width="1.5"/>
+    <text x="112" y="64" text-anchor="middle" font-size="13" fill="var(--c-text, #16202b)">겪어 본</text>
+    <text x="112" y="82" text-anchor="middle" font-size="13" fill="var(--c-text, #16202b)">경험</text>
+  </g>
+  <path d="M172,69 L246,69" fill="none" stroke="var(--c-text-soft, #4a5768)" stroke-width="2" marker-end="url(#evd-a1)"/>
+  <g>
+    <rect x="252" y="38" width="130" height="62" rx="10"
+          fill="var(--c-surface-2, #f1f4f8)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+    <text x="317" y="74" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">결정</text>
+  </g>
+  <text x="404" y="58" font-size="12.5" fill="var(--c-text-soft, #4a5768)">
+    <tspan x="404" dy="0">근거가 한 사람의 기억 안에 있다.</tspan>
+    <tspan x="404" dy="19">다른 사람이 같은 근거를 확인할 수 없고,</tspan>
+    <tspan x="404" dy="19">왜 그렇게 결정했는지 되짚기 어렵다.</tspan>
+  </text>
+
+  <!-- 구분선 -->
+  <line x1="16" y1="126" x2="744" y2="126" stroke="var(--c-border, #dde4ec)" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 아래: 기록을 근거로 한 판단 -->
+  <text x="16" y="154" font-size="14.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">기록을 근거로 한 판단</text>
+
+  <!-- 측정값이 쌓인다 -->
+  <g>
+    <rect x="16" y="168" width="150" height="76" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <g stroke="var(--c-primary, #0d7d72)" stroke-width="1.2" fill="var(--c-surface, #ffffff)">
+      <rect x="30" y="180" width="122" height="13" rx="2"/>
+      <rect x="30" y="196" width="122" height="13" rx="2"/>
+      <rect x="30" y="212" width="122" height="13" rx="2"/>
+    </g>
+    <text x="91" y="239" text-anchor="middle" font-size="12.5" fill="var(--c-primary-deep, #0a5f57)">측정값이 쌓인다</text>
+  </g>
+  <path d="M172,200 L214,200" fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#evd-a2)"/>
+
+  <!-- 비교한다 -->
+  <g>
+    <rect x="220" y="168" width="132" height="76" rx="10"
+          fill="var(--c-surface, #ffffff)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <g fill="var(--c-primary, #0d7d72)">
+      <rect x="242" y="206" width="18" height="22"/>
+      <rect x="268" y="188" width="18" height="40"/>
+      <rect x="294" y="198" width="18" height="30"/>
+    </g>
+    <line x1="236" y1="228" x2="322" y2="228" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="286" y="183" text-anchor="middle" font-size="12.5" fill="var(--c-primary-deep, #0a5f57)">값끼리 비교한다</text>
+  </g>
+  <path d="M358,200 L400,200" fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#evd-a2)"/>
+
+  <!-- 결정 -->
+  <g>
+    <rect x="406" y="168" width="120" height="76" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="466" y="205" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">결정</text>
+    <text x="466" y="224" text-anchor="middle" font-size="11.5" fill="var(--c-primary-deep, #0a5f57)">근거가 남는다</text>
+  </g>
+
+  <text x="548" y="190" font-size="12.5" fill="var(--c-text-soft, #4a5768)">
+    <tspan x="548" dy="0">다른 사람도 같은 값으로</tspan>
+    <tspan x="548" dy="19">확인할 수 있다. 결정을</tspan>
+    <tspan x="548" dy="19">나중에 되짚어 볼 수 있다.</tspan>
+  </text>
+
+  <!-- 아래 결론 -->
+  <line x1="16" y1="272" x2="744" y2="272" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="298" font-size="13" fill="var(--c-text, #16202b)">
+    <tspan x="16" dy="0">판단의 근거가 경험에서 기록으로 옮겨 오면, 근거를 남기고 확인하는 일이 함께 필요해진다.</tspan>
+    <tspan x="16" dy="20">데이터를 다루는 직업이 늘어난 까닭이 여기에 있다.</tspan>
+  </text>
+</svg>

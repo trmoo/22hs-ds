@@ -1,0 +1,68 @@
+<svg viewBox="0 0 760 330" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>데이터 기반 의사 결정의 다섯 단계 순환</title>
+  <desc>다섯 단계가 원을 이루며 순환한다. 문제 정하기에서 시작해 데이터 모으기, 데이터 다듬기, 분석하기, 판단하고 확인하기로 이어진다. 마지막 단계에서 다시 문제 정하기로 화살표가 돌아온다. 판단은 한 번으로 끝나지 않고 새로운 문제로 이어진다는 뜻이다.</desc>
+  <defs>
+    <marker id="ddm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-primary, #0d7d72)"/>
+    </marker>
+    <marker id="ddm-arrow-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-accent, #1d5fd0)"/>
+    </marker>
+  </defs>
+
+  <!-- 순환 화살표: 1→2→3→4→5 -->
+  <g fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#ddm-arrow)">
+    <path d="M156,74 L262,74"/>
+    <path d="M406,74 L512,74"/>
+    <path d="M600,104 L600,168"/>
+    <path d="M512,198 L406,198"/>
+    <path d="M262,198 L156,198"/>
+  </g>
+  <!-- 5단계에서 1단계로 되돌아오는 화살표 -->
+  <path d="M80,168 L80,104" fill="none" stroke="var(--c-accent, #1d5fd0)"
+        stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ddm-arrow-back)"/>
+  <text x="92" y="140" font-size="12" fill="var(--c-accent, #1d5fd0)">다시</text>
+
+  <!-- 1 문제 정하기 -->
+  <g>
+    <rect x="16" y="48" width="140" height="52" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="86" y="70" text-anchor="middle" font-size="12" fill="var(--c-primary-deep, #0a5f57)">1단계</text>
+    <text x="86" y="88" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">문제 정하기</text>
+  </g>
+  <!-- 2 데이터 모으기 -->
+  <g>
+    <rect x="262" y="48" width="144" height="52" rx="10"
+          fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+    <text x="334" y="70" text-anchor="middle" font-size="12" fill="var(--c-text-soft, #4a5768)">2단계</text>
+    <text x="334" y="88" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">데이터 모으기</text>
+  </g>
+  <!-- 3 데이터 다듬기 -->
+  <g>
+    <rect x="512" y="48" width="144" height="52" rx="10"
+          fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+    <text x="584" y="70" text-anchor="middle" font-size="12" fill="var(--c-text-soft, #4a5768)">3단계</text>
+    <text x="584" y="88" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">데이터 다듬기</text>
+  </g>
+  <!-- 4 분석하기 -->
+  <g>
+    <rect x="512" y="172" width="144" height="52" rx="10"
+          fill="var(--c-surface, #ffffff)" stroke="var(--c-border-strong, #c3ccd8)" stroke-width="1.5"/>
+    <text x="584" y="194" text-anchor="middle" font-size="12" fill="var(--c-text-soft, #4a5768)">4단계</text>
+    <text x="584" y="212" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">분석하기</text>
+  </g>
+  <!-- 5 판단하고 확인하기 -->
+  <g>
+    <rect x="156" y="172" width="176" height="52" rx="10"
+          fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+    <text x="244" y="194" text-anchor="middle" font-size="12" fill="var(--c-primary-deep, #0a5f57)">5단계</text>
+    <text x="244" y="212" text-anchor="middle" font-size="14" fill="var(--c-text, #16202b)">판단하고 확인하기</text>
+  </g>
+
+  <!-- 아래 설명 -->
+  <line x1="16" y1="262" x2="744" y2="262" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="286" font-size="13" fill="var(--c-text-soft, #4a5768)">
+    <tspan x="16" dy="0">확인 결과가 기대와 다르면 문제를 다시 정하거나 데이터를 더 모은다.</tspan>
+    <tspan x="16" dy="20">그래서 이 다섯 단계는 한 줄이 아니라 돌아오는 순환이다.</tspan>
+  </text>
+</svg>

@@ -1,0 +1,81 @@
+<svg viewBox="0 0 760 400" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>분석 방법을 고르는 판단 흐름도</title>
+  <desc>맨 위에서 맞히려는 목표 속성이 있는지 묻는다. 있으면 목표가 이어지는 수인지 다시 묻고, 그렇다면 회귀, 아니라면 분류로 간다. 목표 속성이 없으면 데이터를 묶고 싶은지 묻고, 그렇다면 군집, 아니라면 연관으로 간다. 회귀는 평균절대오차와 평균제곱오차의 제곱근으로, 분류는 정확도로, 군집은 군집 내 평균 거리와 군집 간 거리로, 연관은 지지도와 신뢰도와 향상도로 평가한다.</desc>
+  <defs>
+    <marker id="dt-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--c-primary, #0d7d72)"/>
+    </marker>
+  </defs>
+
+  <!-- 최상위 질문 -->
+  <rect x="256" y="14" width="248" height="46" rx="10"
+        fill="var(--c-primary-soft, #d6f2ee)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.8"/>
+  <text x="380" y="43" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">맞히려는 목표 속성이 있는가</text>
+
+  <!-- 1차 분기 -->
+  <g fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#dt-a)">
+    <path d="M320,62 L320,78 L184,78 L184,102"/>
+    <path d="M440,62 L440,78 L576,78 L576,102"/>
+  </g>
+  <text x="240" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">있다</text>
+  <text x="520" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="var(--c-primary-deep, #0a5f57)">없다</text>
+
+  <!-- 2차 질문 (왼) -->
+  <rect x="66" y="106" width="236" height="44" rx="10"
+        fill="var(--c-surface, #ffffff)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+  <text x="184" y="133" text-anchor="middle" font-size="13" fill="var(--c-text, #16202b)">목표가 이어지는 수인가</text>
+  <!-- 2차 질문 (오) -->
+  <rect x="458" y="106" width="236" height="44" rx="10"
+        fill="var(--c-surface, #ffffff)" stroke="var(--c-primary, #0d7d72)" stroke-width="1.5"/>
+  <text x="576" y="133" text-anchor="middle" font-size="13" fill="var(--c-text, #16202b)">데이터를 묶고 싶은가</text>
+
+  <!-- 2차 분기 화살표 -->
+  <g fill="none" stroke="var(--c-primary, #0d7d72)" stroke-width="2" marker-end="url(#dt-a)">
+    <path d="M140,152 L140,168 L92,168 L92,196"/>
+    <path d="M228,152 L228,168 L276,168 L276,196"/>
+    <path d="M532,152 L532,168 L484,168 L484,196"/>
+    <path d="M620,152 L620,168 L668,168 L668,196"/>
+  </g>
+  <g font-size="11.5" font-weight="700" fill="var(--c-primary-deep, #0a5f57)" text-anchor="middle">
+    <text x="106" y="165">예</text><text x="262" y="165">아니오</text>
+    <text x="498" y="165">예</text><text x="654" y="165">아니오</text>
+  </g>
+
+  <!-- 결과 상자 4개 -->
+  <g>
+    <rect x="16" y="200" width="152" height="42" rx="9"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8"/>
+    <text x="92" y="227" text-anchor="middle" font-size="15" font-weight="700" fill="var(--c-text, #16202b)">회귀</text>
+    <text x="92" y="262" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">평균절대오차</text>
+    <text x="92" y="277" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">평균제곱오차의</text>
+    <text x="92" y="292" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">제곱근</text>
+  </g>
+  <g>
+    <rect x="200" y="200" width="152" height="42" rx="9"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8"/>
+    <text x="276" y="227" text-anchor="middle" font-size="15" font-weight="700" fill="var(--c-text, #16202b)">분류</text>
+    <text x="276" y="262" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">정확도</text>
+  </g>
+  <g>
+    <rect x="408" y="200" width="152" height="42" rx="9"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8"/>
+    <text x="484" y="227" text-anchor="middle" font-size="15" font-weight="700" fill="var(--c-text, #16202b)">군집</text>
+    <text x="484" y="262" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">군집 내 평균 거리</text>
+    <text x="484" y="277" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">군집 간 거리</text>
+  </g>
+  <g>
+    <rect x="592" y="200" width="152" height="42" rx="9"
+          fill="var(--c-accent-soft, #dce7fb)" stroke="var(--c-accent, #1d5fd0)" stroke-width="1.8"/>
+    <text x="668" y="227" text-anchor="middle" font-size="15" font-weight="700" fill="var(--c-text, #16202b)">연관</text>
+    <text x="668" y="262" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">지지도, 신뢰도</text>
+    <text x="668" y="277" text-anchor="middle" font-size="10.5" fill="var(--c-text-soft, #4a5768)">향상도</text>
+  </g>
+  <text x="16" y="313" font-size="10.5" fill="var(--c-text-faint, #7c8798)">상자 아래 작은 글씨는 그 방법을 평가하는 지표다.</text>
+
+  <!-- 아래 결론 -->
+  <line x1="16" y1="332" x2="744" y2="332" stroke="var(--c-border, #dde4ec)" stroke-width="1"/>
+  <text x="16" y="358" font-size="13" fill="var(--c-text, #16202b)">
+    <tspan x="16" dy="0">방법을 먼저 고르는 것이 아니라, 목표 속성이 있는지부터 확인한다.</tspan>
+    <tspan x="16" dy="21">같은 데이터라도 무엇을 알고 싶은지에 따라 고를 방법이 달라진다.</tspan>
+  </text>
+</svg>
