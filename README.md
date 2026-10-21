@@ -74,7 +74,6 @@ node site/test/pyrunner.test.mjs   # 파이썬 실행기 24개 검사 (오프라
 | `site/` | 웹 사이트 (Astro). 본문 렌더러 하나가 모든 차시를 그립니다 |
 | `scripts/validate.py` | 콘텐츠 검증 |
 | `docs/` | 설계 계획서, 레퍼런스 분석, 검증 리포트 |
-| `CLAUDE.md` | 집필·개발 규칙 |
 
 ## 이용 조건
 
