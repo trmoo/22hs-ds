@@ -42,6 +42,25 @@ ok(countBlanks('빈칸 없는 문장') === 0, '빈칸이 없으면 0');
 }
 
 {
+  // 회귀: 툴팁 설명(data-desc)이나 용어 이름(data-term) 안에 다른 용어가 들어 있을 때.
+  // 예전에는 방금 넣은 버튼의 속성 안까지 다시 치환해 본문에 `">` 조각이 보였다.
+  const terms = [
+    { term: '최소제곱법(method of least squares)', desc: '잔차 제곱의 합을 가장 작게 하는 방법.' },
+    { term: '잔차(residual)', desc: '실제값과 예측값의 차이.' },
+    { term: '데이터 과학(data science)', desc: '데이터에서 의미를 찾는 활동.' },
+    { term: '데이터(data)', desc: '기록한 값.' },
+  ];
+  const html = linkTerms(markdown('최소제곱법은 반복하지 않는다. 데이터 과학은 데이터를 모은다.'), terms);
+  const attrs = [...html.matchAll(/data-(?:desc|term)="([^"]*)"/g)].map((m) => m[1]);
+  ok(attrs.every((a) => !/[<>]/.test(a)), '툴팁 속성 안에 태그가 끼어들지 않는다', attrs.join(' / '));
+  ok(!/">/.test(html.replace(/<[^>]*>/g, '')), '태그를 걷어 낸 본문에 `">` 조각이 없다');
+  ok((html.match(/class="term-ref"/g) ?? []).length === 3, '본문에 나온 용어 셋만 버튼이 된다', html);
+  ok(/data-term="최소제곱법\(method of least squares\)"/.test(html), '바깥 용어의 툴팁이 온전하다');
+  ok(/>데이터<\/button>를 모은다/.test(html), '긴 용어 버튼 뒤 평문에서 짧은 용어를 찾는다', html);
+  ok(!/>잔차<\/button>/.test(html), '설명 속에만 있는 용어는 링크하지 않는다');
+}
+
+{
   const html = renderBlanks('{{정형/정형 데이터||힌트}}', { n: 0 });
   ok(/data-answer="정형\|정형 데이터"/.test(html), "'/' 로 적은 여러 정답이 '|' 로 이어진다");
 }

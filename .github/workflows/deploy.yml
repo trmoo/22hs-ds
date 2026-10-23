@@ -52,6 +52,10 @@ jobs:
           BASE: /22hs-ds/
         run: npx astro build
 
+      - name: 빌드 결과 검사 (용어 툴팁이 본문을 깨뜨리지 않는지)
+        working-directory: site
+        run: node test/dist.test.mjs
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

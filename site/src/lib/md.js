@@ -24,6 +24,11 @@ export function inline(src) {
  * term 블록으로 정의한 용어가 본문에 다시 나올 때 hover·키보드로 정의를 볼 수 있게 한다.
  * 용어당 첫 등장 한 번만 감싼다(같은 문장이 버튼으로 뒤덮이면 읽기 어렵다).
  * 이미 만들어진 태그 안(<code>, <strong> 등)을 건드리지 않도록 태그 밖 텍스트만 치환한다.
+ *
+ * 한 텍스트 조각 안에서 버튼을 끼워 넣은 뒤에는 그 버튼을 따로 떼어 두고,
+ * 다음 용어는 남은 평문에서만 찾는다. 예전에는 방금 넣은 버튼의 data-desc·data-term
+ * 속성 안(설명에 '잔차' 같은 다른 용어가 든 경우)까지 다시 치환해 속성이 깨졌고,
+ * 본문에 `">` 조각이 글자로 보였다.
  */
 export function linkTerms(html, terms) {
   if (!terms?.length) return html;
@@ -38,19 +43,21 @@ export function linkTerms(html, terms) {
   // 태그와 텍스트를 번갈아 훑는다
   return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, text) => {
     if (tag) return tag;
-    let out = text;
+    // 조각을 [평문, 버튼, 평문, …] 으로 나눠 들고 있는다. 짝수 칸만 평문이다.
+    const parts = [text];
     for (const t of list) {
       if (used.has(t.plain)) continue;
-      const i = out.indexOf(t.plain);
-      if (i < 0) continue;
+      const k = parts.findIndex((p, pi) => pi % 2 === 0 && p.includes(t.plain));
+      if (k < 0) continue;
       used.add(t.plain);
-      const before = out.slice(0, i);
-      const after = out.slice(i + t.plain.length);
+      const s = parts[k];
+      const i = s.indexOf(t.plain);
       const desc = escapeHtml(t.desc).replace(/"/g, '&quot;');
       const label = escapeHtml(t.term).replace(/"/g, '&quot;');
-      out = `${before}<button type="button" class="term-ref" data-term="${label}" data-desc="${desc}">${t.plain}</button>${after}`;
+      const button = `<button type="button" class="term-ref" data-term="${label}" data-desc="${desc}">${t.plain}</button>`;
+      parts.splice(k, 1, s.slice(0, i), button, s.slice(i + t.plain.length));
     }
-    return out;
+    return parts.join('');
   });
 }
 

@@ -28,7 +28,9 @@ python serve.py  # 학교 전산실·USB 배포용. Node 불필요
 ```bash
 node test/chart.test.mjs      # 차트 모듈 (22개 검사)
 node test/pyrunner.test.mjs   # 파이썬 실행기, 특히 오프라인 폴백 (24개 검사)
+node test/blank.test.mjs      # 빈칸 문법·용어 툴팁·조사 (27개 검사)
 python ../scripts/validate.py # 콘텐츠 스키마·성취기준 매핑·[확인필요]
+npm run build && node test/dist.test.mjs  # 빌드 결과 — 툴팁 속성이 깨져 본문에 `">` 가 보이는 곳이 0곳인지
 ```
 
 ## 구조
